@@ -1,0 +1,41 @@
+<style>
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+    text-align: left;
+}
+</style>
+{{if .Items -}}
+    Current Requests:<br>
+        <table style="width:100%">
+        <caption>Specs Repository Pull Requests</caption>
+        <tr>
+            <th>Number</th>
+            <th>User</th>
+            <th>Assignee</th>
+            <th>Time Created</th>
+            <th>Title</th>
+        </tr>
+        {{- range .Items }}
+            <tr>
+                <td><a href={{.HTMLURL}}>{{ .Number | FormatNumber}}</a></td>
+                <td>{{ .User | FormatUser}}</td>
+                {{if .Assignee -}}
+                    <td>{{ .Assignee | FormatAssignee}}</td>
+                {{- else}}
+                    <td>NONE</td>
+                {{- end}}
+                <td>{{.CreatedAt | FormatTime}}</td>
+                <td>{{.Title | FormatTitle}}</td>
+            </tr>
+        {{- end}}
+        </table>
+   
+
+{{- else}}
+There are no requests.
+{{- end}}
+
