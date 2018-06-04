@@ -7,7 +7,7 @@ import (
 	"github.com/gobuffalo/envy"
 	"github.com/unrolled/secure"
 
-	"github.com/Azure/spec_sla_bot/models"
+	"github.com/Azure/spec-sla-bot/models"
 	"github.com/gobuffalo/x/sessions"
 	"github.com/rs/cors"
 )

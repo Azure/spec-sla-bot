@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/Azure/spec_sla_bot/actions"
+	"github.com/Azure/spec-sla-bot/actions"
 )
 
 func main() {
