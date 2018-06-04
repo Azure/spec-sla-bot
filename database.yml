@@ -1,13 +1,8 @@
 development:
-  dialect: postgres
-  database: spec_sla_bot_development
-  user: postgres
-  password: postgres
-  host: 127.0.0.1
-  pool: 5
+  url: {{envOr "CUSTOMCONNSTR_DATABASE_URL" "postgres://postgres:postgres@127.0.0.1:5432/spec_sla_bot_production?sslmode=disable"}}
 
 test:
   url: {{envOr "TEST_DATABASE_URL" "postgres://postgres:postgres@127.0.0.1:5432/spec_sla_bot_test?sslmode=disable"}}
 
 production:
-  url: {{envOr "DATABASE_URL" "postgres://postgres:postgres@127.0.0.1:5432/spec_sla_bot_production?sslmode=disable"}}
+  url: {{envOr "CUSTOMCONNSTR_DATABASE_URL" "postgres://postgres:postgres@127.0.0.1:5432/spec_sla_bot_production?sslmode=disable"}}
