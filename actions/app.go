@@ -7,7 +7,6 @@ import (
 	"github.com/gobuffalo/envy"
 	"github.com/unrolled/secure"
 
-	"github.com/Azure/spec-sla-bot/models"
 	"github.com/gobuffalo/x/sessions"
 	"github.com/rs/cors"
 )
@@ -46,7 +45,7 @@ func App() *buffalo.App {
 		// Wraps each request in a transaction.
 		//  c.Value("tx").(*pop.PopTransaction)
 		// Remove to disable this.
-		app.Use(middleware.PopTransaction(models.DB))
+		//app.Use(middleware.PopTransaction(models.DB))
 
 		app.GET("/", HomeHandler)
 
