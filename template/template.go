@@ -12,13 +12,14 @@ import (
 
 func GenerateTemplate() {
 	//Map of function names to functions
+	//box := packr.NewBox("../templates")
 	fmap := template.FuncMap{
 		"FormatNumber":   FormatNumber,
 		"FormatUser":     FormatUser,
 		"FormatAssignee": FormatAssignee,
 		"FormatTime":     FormatTime,
 		"FormatTitle":    FormatTitle}
-	t := template.Must(template.New("assigneeTemplate.tmpl").Funcs(fmap).ParseFiles("assigneeTemplate.tmpl"))
+	t := template.Must(template.New("assigneeTemplate.tmpl").Funcs(fmap).ParseFiles("./templates/assigneeTemplate.tmpl"))
 	result, err := github.PullRequests()
 	if err != nil {
 		log.Fatal(err)
