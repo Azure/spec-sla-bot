@@ -7,7 +7,7 @@ WORKDIR $GOPATH/src/github.com/Azure/spec-sla-bot
 
 ADD . .
 RUN dep ensure
-RUN buffalo build --static -o /bin/app
+RUN buffalo build --static --ldflags "-X github.com/Azure/spec-sla-bot/actions.commitID=$(git rev-parse HEAD)" -o /bin/app
 
 FROM alpine
 RUN apk add --no-cache bash

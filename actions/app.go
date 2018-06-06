@@ -15,6 +15,7 @@ import (
 // application is being run. Default is "development".
 var ENV = envy.Get("GO_ENV", "development")
 var app *buffalo.App
+var commitID string
 
 // App is where all routes and middleware for buffalo
 // should be defined. This is the nerve center of your

@@ -5,5 +5,9 @@ import "github.com/gobuffalo/buffalo"
 // HomeHandler is a default handler to serve up
 // a home page.
 func HomeHandler(c buffalo.Context) error {
-	return c.Render(200, r.JSON(map[string]string{"message": "Welcome to Buffalo!"}))
+	if commitID == "" {
+		commitID = "Unknown Revision"
+	}
+	//c.Data()["commitID"] = commitID
+	return c.Render(200, r.JSON(map[string]string{"message": "Welcome to Buffalo!", "commit_number": commitID}))
 }
