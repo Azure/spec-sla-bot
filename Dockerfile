@@ -16,7 +16,7 @@ RUN apk add --no-cache ca-certificates
 WORKDIR /bin/
 
 COPY --from=builder /bin/app .
-COPY /templates
+COPY /templates /templates
 
 # Comment out to run the binary in "production" mode:
 # ENV GO_ENV=production
