@@ -1,7 +1,7 @@
 package grifts
 
 import (
-	"github.com/Azure/spec_sla_bot/actions"
+	"github.com/Azure/spec-sla-bot/actions"
 	"github.com/gobuffalo/buffalo"
 )
 

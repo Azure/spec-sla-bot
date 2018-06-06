@@ -20,7 +20,7 @@ node_modules/
 .sass-cache/
 *-packr.go
 public/assets/
-spec_sla_bot
+spec-sla-bot
 .vscode/
 .grifter/
 .env

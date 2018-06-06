@@ -49,6 +49,7 @@ func App() *buffalo.App {
 
 		app.GET("/", HomeHandler)
 
+		app.GET("/event/listen", EventListen)
 	}
 
 	return app

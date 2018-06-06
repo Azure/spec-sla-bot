@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"playground/listpr/template"
 
-	"gopkg.in/gomail.v2"
+	"github.com/Azure/spec-sla-bot/template"
+	gomail "gopkg.in/gomail.v2"
 )
 
 //SendEmailToAssignee sends an email to a list of users

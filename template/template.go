@@ -5,8 +5,9 @@ import (
 	"html/template"
 	"log"
 	"os"
-	"playground/listpr/github"
 	"time"
+
+	"github.com/Azure/spec-sla-bot/github"
 )
 
 func GenerateTemplate() {
