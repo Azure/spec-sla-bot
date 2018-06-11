@@ -20,7 +20,6 @@ COPY --from=builder /go/src/github.com/Azure/spec-sla-bot/templates templates/
 
 # Comment out to run the binary in "production" mode:
 # ENV GO_ENV=production
-
 # Bind the app to 0.0.0.0 so it can be seen from outside the container
 ENV ADDR=0.0.0.0
 
