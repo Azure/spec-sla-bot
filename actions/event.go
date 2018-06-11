@@ -16,7 +16,11 @@ func EventListen(c buffalo.Context) error {
 		return errEmail
 	}*/ //handle secret
 	request := c.Request()
-	payload, err := github.ValidatePayload(request, []byte("my-secret-key"))
+	payload, err := github.ValidatePayload(request, []byte("X-Hub-Signature"))
+	if err != nil {
+		log.Printf("secret key is not correct: err=%s\n", err)
+		return err
+	}
 	defer request.Body.Close()
 	event, err := github.ParseWebHook(github.WebHookType(request), payload)
 	if err != nil {
