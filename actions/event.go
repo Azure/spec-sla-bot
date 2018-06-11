@@ -17,7 +17,7 @@ func EventListen(c buffalo.Context) error {
 		return errEmail
 	}*/ //handle secret
 	request := c.Request()
-	payload, err := github.ValidatePayload(request, []byte(os.Getenv("X_HUB_SIGNATURE")))
+	payload, err := github.ValidatePayload(request, []byte(os.Getenv("APPSETTING_X_HUB_SIGNATURE")))
 	if err != nil {
 		log.Printf("secret key is not correct: err=%s\n", err)
 		return err
@@ -37,7 +37,7 @@ func EventListen(c buffalo.Context) error {
 		}
 	default:
 		log.Printf("unknown event type %s\n", github.WebHookType(request))
-		return err
+		//return err
 	}
 	return c.Render(200, r.JSON(map[string]string{"message": "Welcome to Buffalo!", "Repository Name": repoName}))
 }
