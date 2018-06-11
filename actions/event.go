@@ -17,7 +17,7 @@ func EventListen(c buffalo.Context) error {
 		return errEmail
 	}*/ //handle secret
 	request := c.Request()
-	payload, err := github.ValidatePayload(request, []byte(os.Getenv("X_Hub_Signature")))
+	payload, err := github.ValidatePayload(request, []byte(os.Getenv("X_HUB_SIGNATURE")))
 	if err != nil {
 		log.Printf("secret key is not correct: err=%s\n", err)
 		return err
