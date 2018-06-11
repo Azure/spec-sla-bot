@@ -3,6 +3,7 @@ package actions
 import (
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/gobuffalo/buffalo"
 	"github.com/google/go-github/github"
@@ -16,7 +17,7 @@ func EventListen(c buffalo.Context) error {
 		return errEmail
 	}*/ //handle secret
 	request := c.Request()
-	payload, err := github.ValidatePayload(request, []byte("X-Hub-Signature"))
+	payload, err := github.ValidatePayload(request, []byte(os.Getenv("X_Hub_Signature")))
 	if err != nil {
 		log.Printf("secret key is not correct: err=%s\n", err)
 		return err
