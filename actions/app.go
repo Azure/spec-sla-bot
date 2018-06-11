@@ -50,7 +50,7 @@ func App() *buffalo.App {
 
 		app.GET("/", HomeHandler)
 
-		app.GET("/event/listen", EventListen)
+		app.POST("/event/listen", EventListen)
 	}
 
 	return app
