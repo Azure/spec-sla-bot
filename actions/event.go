@@ -38,6 +38,10 @@ func EventListen(c buffalo.Context) error {
 			repoName = *e.Repo.FullName
 			fmt.Printf("Repository Name: %s", *e.Repo.FullName)
 		}
+	case *github.LabelEvent:
+		if e.Action != nil {
+			repoName = *e.Repo.FullName
+		}
 	default:
 		log.Printf("unknown event type %s\n", github.WebHookType(request))
 		//return err
