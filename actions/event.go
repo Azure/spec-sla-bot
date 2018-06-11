@@ -16,7 +16,7 @@ func EventListen(c buffalo.Context) error {
 		return errEmail
 	}*/ //handle secret
 	request := c.Request()
-	payload, err := github.ValidatePayload(request, []byte("Secret-Key"))
+	payload, err := github.ValidatePayload(request, []byte("my-secret-key"))
 	defer request.Body.Close()
 	event, err := github.ParseWebHook(github.WebHookType(request), payload)
 	if err != nil {
@@ -34,6 +34,5 @@ func EventListen(c buffalo.Context) error {
 		log.Printf("unknown event type %s\n", github.WebHookType(request))
 		return err
 	}
-
 	return c.Render(200, r.JSON(map[string]string{"message": "Welcome to Buffalo!", "Repository Name": repoName}))
 }
