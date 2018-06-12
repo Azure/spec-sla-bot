@@ -7,6 +7,7 @@ import (
 	"github.com/gobuffalo/envy"
 	"github.com/unrolled/secure"
 
+	"github.com/Azure/buffalo-azure/sdk/eventgrid"
 	"github.com/gobuffalo/x/sessions"
 	"github.com/rs/cors"
 )
@@ -51,6 +52,7 @@ func App() *buffalo.App {
 		app.GET("/", HomeHandler)
 
 		app.POST("/event/listen", EventListen)
+		eventgrid.RegisterSubscriber(app, "/specsla", NewSpecslaSubscriber(&eventgrid.BaseSubscriber{}))
 	}
 
 	return app
