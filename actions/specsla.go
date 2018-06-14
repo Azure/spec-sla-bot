@@ -51,5 +51,5 @@ func (s *SpecslaSubscriber) ReceiveLabelEvent(c buffalo.Context, e eventgrid.Eve
 	}
 
 	// Replace the code below with your logic
-	return c.Render(200, render.JSON(map[string]string{"message": "Hopefully this works", "label name for last event": payload.Label.Name}))
+	return c.Render(200, render.JSON(map[string]string{"message": "Hopefully this works", "label name for last event": *payload.Label.Name}))
 }
