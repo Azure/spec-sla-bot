@@ -7,10 +7,11 @@ import (
 
 	"github.com/Azure/buffalo-azure/sdk/eventgrid"
 	"github.com/gobuffalo/buffalo"
+	"github.com/gobuffalo/buffalo/render"
 	"github.com/google/go-github/github"
 )
 
-// MySpecslaSubscriber gathers responds to all Requests sent to a particular endpoint.
+// SpecslaSubscriber gathers responses to all Requests sent to a particular endpoint.
 type SpecslaSubscriber struct {
 	eventgrid.Subscriber
 }
@@ -23,18 +24,32 @@ func NewSpecslaSubscriber(parent eventgrid.Subscriber) (created *SpecslaSubscrib
 		Subscriber: dispatcher,
 	}
 
-	dispatcher.Bind("Github.PullRequest", created.ReceivePullRequest)
+	//dispatcher.Bind("Github.PullRequest", created.ReceivePullRequestEvent)
+	dispatcher.Bind("Github.Label", created.ReceiveLabelEvent)
 
 	return
 }
 
-// ReceivePullRequest will respond to an `eventgrid.Event` carrying a serialized `PullRequest` as its payload.
-func (s *SpecslaSubscriber) ReceivePullRequest(c buffalo.Context, e eventgrid.Event) error {
-	var payload github.PullRequest
+// ReceivePullRequestEvent will respond to an `eventgrid.Event` carrying a serialized `PullRequestEvent` as its payload.
+func (s *SpecslaSubscriber) ReceivePullRequestEvent(c buffalo.Context, e eventgrid.Event) error {
+	var payload github.PullRequestEvent
+
 	if err := json.Unmarshal(e.Data, &payload); err != nil {
 		return c.Error(http.StatusBadRequest, errors.New("unable to unmarshal request data"))
 	}
 
 	// Replace the code below with your logic
-	return nil
+	return c.Render(200, render.JSON(map[string]string{"message": "Welcome to Buffalo!", "repo name": repoName}))
+}
+
+// ReceiveLabelEvent will respond to an `eventgrid.Event` carrying a serialized `LabelEvent` as its payload.
+func (s *SpecslaSubscriber) ReceiveLabelEvent(c buffalo.Context, e eventgrid.Event) error {
+	var payload github.LabelEvent
+
+	if err := json.Unmarshal(e.Data, &payload); err != nil {
+		return c.Error(http.StatusBadRequest, errors.New("unable to unmarshal request data"))
+	}
+
+	// Replace the code below with your logic
+	return c.Render(200, render.JSON(map[string]string{"message": "Hopefully this works", "label name for last event": payload.Label.Name}))
 }
