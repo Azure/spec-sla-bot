@@ -25,7 +25,7 @@ func NewSpecslaSubscriber(parent eventgrid.Subscriber) (created *SpecslaSubscrib
 	}
 
 	//dispatcher.Bind("Github.PullRequest", created.ReceivePullRequestEvent)
-	dispatcher.Bind("Github.Label", created.ReceiveLabelEvent)
+	dispatcher.Bind("Github.LabelEvent", created.ReceiveLabelEvent)
 
 	return
 }

@@ -8,6 +8,12 @@
   revision = "40e40b42552a9cb37d6e98f4ad31f63ae53ea43a"
 
 [[projects]]
+  name = "github.com/Azure/buffalo-azure"
+  packages = ["sdk/eventgrid"]
+  revision = "0cb97d295bd76446a172d267b1e90f625d54f60f"
+  version = "v0.1.1"
+
+[[projects]]
   name = "github.com/BurntSushi/toml"
   packages = ["."]
   revision = "b26d9c308763d68093482582cea63d69be07a0f0"
@@ -78,8 +84,8 @@
 [[projects]]
   name = "github.com/gobuffalo/envy"
   packages = ["."]
-  revision = "ef60bfc50c8f92d1ee64674d8ce7a48f1f67625e"
-  version = "v1.6.2"
+  revision = "2d0f467653f3d961ce9ada4d32a230bdcb3bfe11"
+  version = "v1.6.3"
 
 [[projects]]
   name = "github.com/gobuffalo/makr"
@@ -90,8 +96,8 @@
 [[projects]]
   name = "github.com/gobuffalo/packr"
   packages = ["."]
-  revision = "7f4074995d431987caaa35088199f13c44b24440"
-  version = "v1.11.0"
+  revision = "bd47f2894846e32edcf9aa37290fef76c327883f"
+  version = "v1.11.1"
 
 [[projects]]
   name = "github.com/gobuffalo/plush"
@@ -102,8 +108,8 @@
     "parser",
     "token"
   ]
-  revision = "5d52aed81c89f76ec6f19a03537c85773102ebf4"
-  version = "v3.7.3"
+  revision = "6cd5bf0d0c9b3623f2a89a2832387c584fb5e274"
+  version = "v3.7.5"
 
 [[projects]]
   name = "github.com/gobuffalo/pop"
@@ -162,6 +168,18 @@
   revision = "11ca13c05abd73167c56ed10f8874c7c7497f759"
 
 [[projects]]
+  name = "github.com/google/go-github"
+  packages = ["github"]
+  revision = "e48060a28fac52d0f1cb758bc8b87c07bac4a87d"
+  version = "v15.0.0"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/google/go-querystring"
+  packages = ["query"]
+  revision = "53e6ce116135b80d037921a7fdd5138cf32d7a8a"
+
+[[projects]]
   name = "github.com/gorilla/context"
   packages = ["."]
   revision = "08b5f424b9271eedf6f9f0ce86cb9396ed337a42"
@@ -182,8 +200,8 @@
 [[projects]]
   name = "github.com/gorilla/sessions"
   packages = ["."]
-  revision = "ca9ada44574153444b00d3fd9c8559e4cc95f896"
-  version = "v1.1"
+  revision = "03b6f63cc43ef9c7240a635a5e22b13180e822b8"
+  version = "v1.1.1"
 
 [[projects]]
   name = "github.com/gorilla/websocket"
@@ -198,7 +216,7 @@
     ".",
     "reflectx"
   ]
-  revision = "2aeb6a910c2b94f2d5eb53d9895d80e27264ec41"
+  revision = "0dae4fefe7c0e190f7b5a78dac28a1c82cc8d849"
 
 [[projects]]
   name = "github.com/joho/godotenv"
@@ -290,8 +308,8 @@
 [[projects]]
   name = "github.com/mattn/go-sqlite3"
   packages = ["."]
-  revision = "323a32be5a2421b8c7087225079c6c900ec397cd"
-  version = "v1.7.0"
+  revision = "25ecb14adfc7543176f7d85291ec7dba82c6f7e4"
+  version = "v1.9.0"
 
 [[projects]]
   branch = "master"
@@ -425,8 +443,8 @@
     "require",
     "suite"
   ]
-  revision = "12b6f73e6084dad08a7c6e575284b177ecafbc71"
-  version = "v1.2.1"
+  revision = "f35b8ab0b5a2cef36673838d662e249dd9c94686"
+  version = "v1.2.2"
 
 [[projects]]
   branch = "master"
@@ -442,7 +460,7 @@
     "blowfish",
     "ssh/terminal"
   ]
-  revision = "b47b1587369238182299fe4dad77d05b8b461e06"
+  revision = "5cd40a374b80f104c75043e6a04071d3a743ffd9"
 
 [[projects]]
   branch = "master"
@@ -452,7 +470,7 @@
     "html",
     "html/atom"
   ]
-  revision = "1e491301e022f8f977054da4c2d852decd59571f"
+  revision = "db08ff08e8622530d9ed3a0e8ac279f6d4c02196"
 
 [[projects]]
   branch = "master"
@@ -467,7 +485,7 @@
     "unix",
     "windows"
   ]
-  revision = "bc2ef10f1b658ea907736406814a6187b49ea3ec"
+  revision = "8883426083c04a2627e6e59d84d5f6fb63d16c91"
 
 [[projects]]
   name = "google.golang.org/appengine"
@@ -495,6 +513,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "4aaf288f5772c7a8886fba807dda982aa9f32409af41e0327668bd9c7ba6ac96"
+  inputs-digest = "e9c4fb484ae9bcefd294f02a5d487f8d9d5e1a732cc44795ae74c9f4b56cad03"
   solver-name = "gps-cdcl"
   solver-version = 1
