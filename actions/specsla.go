@@ -39,7 +39,7 @@ func (s *SpecslaSubscriber) ReceivePullRequestEvent(c buffalo.Context, e eventgr
 	}
 
 	// Replace the code below with your logic
-	return c.Render(200, render.JSON(map[string]string{"message": "Welcome to Buffalo!", "repo name": repoName}))
+	return nil
 }
 
 // ReceiveLabelEvent will respond to an `eventgrid.Event` carrying a serialized `LabelEvent` as its payload.
