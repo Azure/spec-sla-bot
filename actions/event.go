@@ -31,7 +31,7 @@ func EventListen(c buffalo.Context) error {
 		return err
 	}
 	defer request.Body.Close()
-	event, err := github.ParseWebHook(github.WebHookType(request), payload)
+	event, err := github.ParseWebHook(github.WebHookType(request), body)
 	if err != nil {
 		log.Printf("could not parse webhook: err=%s\n", err)
 		return c.Error(http.StatusInternalServerError, err)
