@@ -2,9 +2,9 @@ package actions
 
 import (
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
 
 	"github.com/gobuffalo/buffalo/render"
 
@@ -20,10 +20,15 @@ func EventListen(c buffalo.Context) error {
 		return errEmail
 	}*/ //handle secret
 	request := c.Request()
-	payload, err := github.ValidatePayload(request, []byte(os.Getenv("APPSETTING_X_HUB_SIGNATURE")))
+	/*payload, err := github.ValidatePayload(request, []byte(os.Getenv("APPSETTING_X_HUB_SIGNATURE")))
 	if err != nil {
 		log.Printf("secret key is not correct: err=%s\n", err)
 		return c.Error(http.StatusInternalServerError, err)
+	}*/
+	var err error
+	var body []byte
+	if body, err = ioutil.ReadAll(request.Body); err != nil {
+		return err
 	}
 	defer request.Body.Close()
 	event, err := github.ParseWebHook(github.WebHookType(request), payload)
