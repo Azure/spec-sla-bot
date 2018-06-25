@@ -1,4 +1,4 @@
-package template
+package messages
 
 import (
 	"fmt"
@@ -6,11 +6,24 @@ import (
 	"log"
 	"os"
 	"time"
-
-	"github.com/Azure/spec-sla-bot/github"
 )
 
-func GenerateTemplate() {
+func CreatePrimaryTemplate(info *Message) {
+	//Map of function names to functions
+	//box := packr.NewBox("../templates")
+	fmap := template.FuncMap{
+		"FormatNumber":   FormatNumber,
+		"FormatAssignee": FormatAssignee}
+	t := template.Must(template.New("primaryTemplate.tmpl").Funcs(fmap).ParseFiles("./templates/primaryTemplate.tmpl"))
+	handle, err := os.Create("finalPrimaryTemplate.html")
+	//fred, err := ioutil.TempFile()
+	err = t.Execute(handle, *info)
+	if err != nil {
+		panic(err)
+	}
+}
+
+func CreateAssigneeTemplate() {
 	//Map of function names to functions
 	//box := packr.NewBox("../templates")
 	fmap := template.FuncMap{
@@ -20,7 +33,7 @@ func GenerateTemplate() {
 		"FormatTime":     FormatTime,
 		"FormatTitle":    FormatTitle}
 	t := template.Must(template.New("assigneeTemplate.tmpl").Funcs(fmap).ParseFiles("./templates/assigneeTemplate.tmpl"))
-	result, err := github.PullRequests()
+	result, err := PullRequests()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -32,21 +45,15 @@ func GenerateTemplate() {
 	}
 }
 
-/*func FormatPullRequest(item github.Request) string {
-	formattedString := fmt.Sprintf("#%-5d %9.9s Created: %.55s %.55s\n",
-		item.Number, item.User.Login, item.CreatedAt, item.Title)
-	return formattedString
-}*/
-
 func FormatNumber(number int) string {
 	return fmt.Sprintf("#%-5d", number)
 }
 
-func FormatUser(user github.User) string {
+func FormatUser(user User) string {
 	return fmt.Sprintf("%9.9s", user.Login)
 }
 
-func FormatAssignee(assignee github.Assignee) string {
+func FormatAssignee(assignee Assignee) string {
 	return fmt.Sprintf("%9.9s", assignee.Login)
 }
 

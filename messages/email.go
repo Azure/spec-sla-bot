@@ -1,4 +1,4 @@
-package email
+package messages
 
 import (
 	"fmt"
@@ -7,14 +7,13 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/Azure/spec-sla-bot/template"
 	gomail "gopkg.in/gomail.v2"
 )
 
 //SendEmailToAssignee sends an email to a list of users
-func SendEmailToAssignee() error {
-	template.GenerateTemplate()
-	b, err := ioutil.ReadFile("finalTemplate.html")
+func SendEmailToAssignee(info *Message) error {
+	CreatePrimaryTemplate(info)
+	b, err := ioutil.ReadFile("finalPrimaryTemplate.html")
 	if err != nil {
 		fmt.Print(err)
 		return err

@@ -3,6 +3,7 @@ package actions
 import (
 	"encoding/json"
 	"errors"
+	"messages"
 	"net/http"
 
 	"github.com/Azure/buffalo-azure/sdk/eventgrid"
@@ -37,9 +38,10 @@ func (s *SpecslaSubscriber) ReceivePullRequestEvent(c buffalo.Context, e eventgr
 	if err := json.Unmarshal(e.Data, &payload); err != nil {
 		return c.Error(http.StatusBadRequest, errors.New("unable to unmarshal request data"))
 	}
+	messages.CheckAcknowledgement(payload)
 
 	// Replace the code below with your logic
-	return nil
+	return c.Render(200, render.JSON(map[string]string{"message": "Hopefully this works"}))
 }
 
 // ReceiveLabelEvent will respond to an `eventgrid.Event` carrying a serialized `LabelEvent` as its payload.

@@ -1,0 +1,125 @@
+package messages
+
+import (
+	"context"
+	"errors"
+	"log"
+	"os"
+	"strings"
+	"time"
+
+	"github.com/Azure/azure-service-bus-go"
+)
+
+type Message struct {
+	PRID           string
+	PullRequestURL string
+	Assignee       string
+}
+
+func receiveFromQueue() {
+	//connStr := mustGetenv("SERVICEBUS_CONNECTION_STRING")
+	connStr := "Endpoint=sb://spec-sla-bus.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=YetSU0WSSf0Bnb+Y9wndzDdXP2DKGoH70GiNAJNl9tk="
+	ns, err := servicebus.NewNamespace(servicebus.NamespaceWithConnectionString(connStr))
+	if err != nil {
+		log.Println(err)
+		os.Exit(1)
+	}
+
+	queueName := "24hrgitevents"
+	q, err := getQueueToReceive(ns, queueName)
+	if err != nil {
+		log.Printf("failed to build a new queue named %q\n", queueName)
+		os.Exit(1)
+	}
+
+	exit := make(chan struct{})
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	listenHandle, err := q.Receive(ctx, func(ctx context.Context, message *servicebus.Message) servicebus.DispositionAction {
+		text := string(message.Data)
+		if text == "exit\n" {
+			//This will not be a part of my project
+			log.Println("Oh snap!! Someone told me to exit!")
+			exit <- *new(struct{})
+		} else {
+			//The message is not invalid so parse
+			messageStruct, err := parseMessage(message.Data)
+			if err != nil {
+				log.Println(err)
+				os.Exit(1)
+			}
+			err = SendEmailToAssignee(messageStruct)
+			if err != nil {
+				log.Println(err)
+				os.Exit(1)
+			}
+		}
+		return message.Complete()
+	})
+	defer listenHandle.Close(context.Background())
+
+	if err != nil {
+		log.Println(err)
+		os.Exit(1)
+	}
+
+	log.Println("I am listening...")
+
+	select {
+	case <-exit:
+		log.Println("closing after 2 seconds")
+		select {
+		case <-time.After(2 * time.Second):
+			listenHandle.Close(context.Background())
+			return
+		}
+	}
+}
+
+func getQueueToReceive(ns *servicebus.Namespace, queueName string) (*servicebus.Queue, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	qm := ns.NewQueueManager()
+	qe, err := qm.Get(ctx, queueName)
+	if err != nil {
+		return nil, err
+	}
+
+	if qe == nil {
+		_, err := qm.Put(ctx, queueName)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	q, err := ns.NewQueue(ctx, queueName)
+	return q, err
+}
+
+func mustGetenv(key string) string {
+	v := os.Getenv(key)
+	if v == "" {
+		panic("Environment variable '" + key + "' required for integration tests.")
+	}
+	return v
+}
+
+func parseMessage(data []byte) (*Message, error) {
+	str := string(data[:])
+	if len(str) != 0 {
+		strSplit := strings.FieldsFunc(str, Split)
+		for i, v := range strSplit {
+			strSplit[i] = strings.TrimSpace(v)
+		}
+		return &Message{PRID: strSplit[1], PullRequestURL: strSplit[3], Assignee: strSplit[5]}, nil
+
+	}
+	return nil, errors.New("could not parse messages returned by service bus")
+}
+
+func Split(r rune) bool {
+	return r == ':' || r == ','
+}

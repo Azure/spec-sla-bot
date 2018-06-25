@@ -53,6 +53,7 @@ func App() *buffalo.App {
 
 		app.POST("/event/listen", EventListen)
 		eventgrid.RegisterSubscriber(app, "/specsla", NewSpecslaSubscriber(&eventgrid.BaseSubscriber{}))
+		//app.POST("/receiver/message", ReceiverMessage)
 	}
 
 	return app

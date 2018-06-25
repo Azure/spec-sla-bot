@@ -8,10 +8,58 @@
   revision = "40e40b42552a9cb37d6e98f4ad31f63ae53ea43a"
 
 [[projects]]
+  name = "github.com/Azure/azure-amqp-common-go"
+  packages = [
+    ".",
+    "auth",
+    "cbs",
+    "conn",
+    "internal",
+    "internal/tracing",
+    "log",
+    "rpc",
+    "sas",
+    "uuid"
+  ]
+  revision = "8d02d4e77aba80165452199bb9bb24a82eb3b219"
+  version = "v0.5.0"
+
+[[projects]]
+  name = "github.com/Azure/azure-sdk-for-go"
+  packages = [
+    "services/servicebus/mgmt/2017-04-01/servicebus",
+    "version"
+  ]
+  revision = "fad8443a79b0e755c18c3bec29a8d2bedab0b421"
+  version = "v15.3.0"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/Azure/azure-service-bus-go"
+  packages = [
+    ".",
+    "atom"
+  ]
+  revision = "d5416b8c12184fffc9b6b39dd0aea92da7ba5136"
+
+[[projects]]
   name = "github.com/Azure/buffalo-azure"
   packages = ["sdk/eventgrid"]
   revision = "0cb97d295bd76446a172d267b1e90f625d54f60f"
   version = "v0.1.1"
+
+[[projects]]
+  name = "github.com/Azure/go-autorest"
+  packages = [
+    "autorest",
+    "autorest/adal",
+    "autorest/azure",
+    "autorest/date",
+    "autorest/to",
+    "autorest/validation"
+  ]
+  revision = "f04d503958a4fe854c1b41667c73f8813c9dd9c3"
+  version = "v10.11.2"
 
 [[projects]]
   name = "github.com/BurntSushi/toml"
@@ -36,6 +84,12 @@
   packages = ["spew"]
   revision = "346938d642f2ec3594ed81d874461961cd0faa76"
   version = "v1.1.0"
+
+[[projects]]
+  name = "github.com/dgrijalva/jwt-go"
+  packages = ["."]
+  revision = "06ea1031745cb8b3dab3f6a236daf2b0aa468b7e"
+  version = "v3.2.0"
 
 [[projects]]
   branch = "master"
@@ -324,10 +378,26 @@
   revision = "3864e76763d94a6df2f9960b16a20a33da9f9a66"
 
 [[projects]]
+  branch = "master"
+  name = "github.com/mitchellh/mapstructure"
+  packages = ["."]
+  revision = "bb74f1db0675b241733089d5a1faa5dd8b0ef57b"
+
+[[projects]]
   name = "github.com/monoculum/formam"
   packages = ["."]
   revision = "99ca9dcbaca6d91e9665f817d0da23af6184ced3"
   version = "v3.0"
+
+[[projects]]
+  name = "github.com/opentracing/opentracing-go"
+  packages = [
+    ".",
+    "ext",
+    "log"
+  ]
+  revision = "1949ddbfd147afd4d964a9f00b24eb291e0e7c38"
+  version = "v1.0.2"
 
 [[projects]]
   name = "github.com/pkg/errors"
@@ -510,9 +580,18 @@
   revision = "5420a8b6744d3b0345ab293f6fcba19c978f1183"
   version = "v2.2.1"
 
+[[projects]]
+  name = "pack.ag/amqp"
+  packages = [
+    ".",
+    "internal/testconn"
+  ]
+  revision = "0438881ea921050481169756e30ecf36ea24231c"
+  version = "v0.5.2"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "e9c4fb484ae9bcefd294f02a5d487f8d9d5e1a732cc44795ae74c9f4b56cad03"
+  inputs-digest = "339ee46ca5fc4d23635ac82cec965122523754b4a342d0a2c557993c99a3b228"
   solver-name = "gps-cdcl"
   solver-version = 1

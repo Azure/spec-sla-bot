@@ -1,0 +1,27 @@
+<style>
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+    text-align: left;
+}
+</style>
+    Current Requests:<br>
+        <table style="width:100%">
+        <caption>Specs Repository Pull Requests</caption>
+        <tr>
+            <th>Number</th>
+            <th>Assignee</th>
+        </tr>
+            <tr>
+                <td><a href={{.PullRequestURL}}>{{ .PRID | FormatNumber}}</a></td>
+                {{if .Assignee -}}
+                    <td>{{ .Assignee | FormatAssignee}}</td>
+                {{- else}}
+                    <td>NONE</td>
+                {{- end}}
+            </tr>
+        </table>
+
