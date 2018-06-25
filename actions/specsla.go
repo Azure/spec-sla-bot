@@ -3,10 +3,10 @@ package actions
 import (
 	"encoding/json"
 	"errors"
-	"messages"
 	"net/http"
 
 	"github.com/Azure/buffalo-azure/sdk/eventgrid"
+	"github.com/Azure/spec-sla-bot/messages"
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/buffalo/render"
 	"github.com/google/go-github/github"
