@@ -18,8 +18,8 @@ type Message struct {
 }
 
 func receiveFromQueue() {
-	//connStr := mustGetenv("SERVICEBUS_CONNECTION_STRING")
-	connStr := "Endpoint=sb://spec-sla-bus.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=YetSU0WSSf0Bnb+Y9wndzDdXP2DKGoH70GiNAJNl9tk="
+	connStr := mustGetenv("SERVICEBUS_CONNECTION_STRING")
+	//connStr :=
 	ns, err := servicebus.NewNamespace(servicebus.NamespaceWithConnectionString(connStr))
 	if err != nil {
 		log.Println(err)
