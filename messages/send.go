@@ -3,14 +3,14 @@ package messages
 import (
 	"context"
 	"log"
+	"os"
 	"time"
 
 	"github.com/Azure/azure-service-bus-go"
 )
 
 func SendToQueue(message string) error {
-	//connStr := os.Getenv("SERVICEBUS_CONNECTION_STRING")
-	connStr := "Endpoint=sb://spec-sla-bus.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=YetSU0WSSf0Bnb+Y9wndzDdXP2DKGoH70GiNAJNl9tk="
+	connStr := os.Getenv("SERVICEBUS_CONNECTION_STRING")
 	ns, err := servicebus.NewNamespace(servicebus.NamespaceWithConnectionString(connStr))
 	if err != nil {
 		return err
@@ -24,6 +24,7 @@ func SendToQueue(message string) error {
 		return err
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	log.Print(message)
 	q.Send(ctx, servicebus.NewMessageFromString(message))
 	cancel()
 	return nil

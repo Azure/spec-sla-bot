@@ -39,16 +39,20 @@ func receiveFromQueue() {
 
 	listenHandle, err := q.Receive(ctx, func(ctx context.Context, message *servicebus.Message) servicebus.DispositionAction {
 		text := string(message.Data)
+		log.Print(text)
 		if text == "exit\n" {
 			//This will not be a part of my project
 			log.Println("Oh snap!! Someone told me to exit!")
 			exit <- *new(struct{})
 		} else {
 			//The message is not invalid so parse
+			log.Print("MADE IT TO RECEIVE")
+			log.Print(message.Data)
 			messageStruct, err := parseMessage(message.Data)
 			if err != nil {
 				log.Println(err)
-				os.Exit(1)
+				//os.Exit(1)
+				return message.DeadLetter(err)
 			}
 			err = SendEmailToAssignee(messageStruct)
 			if err != nil {
@@ -109,6 +113,7 @@ func mustGetenv(key string) string {
 
 func parseMessage(data []byte) (*Message, error) {
 	str := string(data[:])
+	log.Print(str)
 	if len(str) != 0 {
 		strSplit := strings.FieldsFunc(str, Split)
 		for i, v := range strSplit {
@@ -121,5 +126,5 @@ func parseMessage(data []byte) (*Message, error) {
 }
 
 func Split(r rune) bool {
-	return r == ':' || r == ','
+	return r == ','
 }

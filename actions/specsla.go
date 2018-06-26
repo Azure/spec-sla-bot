@@ -25,8 +25,8 @@ func NewSpecslaSubscriber(parent eventgrid.Subscriber) (created *SpecslaSubscrib
 		Subscriber: dispatcher,
 	}
 
-	//dispatcher.Bind("Github.PullRequest", created.ReceivePullRequestEvent)
-	dispatcher.Bind("Github.LabelEvent", created.ReceiveLabelEvent)
+	dispatcher.Bind("Github.PullRequestEvent", created.ReceivePullRequestEvent)
+	//dispatcher.Bind("Github.LabelEvent", created.ReceiveLabelEvent)
 
 	return
 }
@@ -38,6 +38,7 @@ func (s *SpecslaSubscriber) ReceivePullRequestEvent(c buffalo.Context, e eventgr
 	if err := json.Unmarshal(e.Data, &payload); err != nil {
 		return c.Error(http.StatusBadRequest, errors.New("unable to unmarshal request data"))
 	}
+	c.Logger().Debug("HERE")
 	messages.CheckAcknowledgement(payload)
 
 	// Replace the code below with your logic
