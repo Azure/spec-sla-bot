@@ -2,6 +2,7 @@ package actions
 
 import (
 	"context"
+	"log"
 
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/buffalo/middleware"
@@ -51,10 +52,11 @@ func App() *buffalo.App {
 		//  c.Value("tx").(*pop.PopTransaction)
 		// Remove to disable this.
 		//app.Use(middleware.PopTransaction(models.DB))
-
+		log.Print("Made it to home")
 		app.GET("/", HomeHandler)
 
 		app.POST("/event/listen", EventListen)
+		log.Print("Made to event listen")
 		eventgrid.RegisterSubscriber(app, "/specsla", NewSpecslaSubscriber(&eventgrid.BaseSubscriber{}))
 		//app.POST("/receiver/message", ReceiverMessage)
 		//Create AMQP Listener
