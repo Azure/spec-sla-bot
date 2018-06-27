@@ -17,7 +17,7 @@ type Message struct {
 	Assignee       string
 }
 
-func ReceiveFromQueue() {
+func ReceiveFromQueue(ctx context.Context) *servicebus.ListenerHandle {
 	connStr := mustGetenv("SERVICEBUS_CONNECTION_STRING")
 	//connStr :=
 	ns, err := servicebus.NewNamespace(servicebus.NamespaceWithConnectionString(connStr))
@@ -34,8 +34,6 @@ func ReceiveFromQueue() {
 	}
 
 	//exit := make(chan struct{})
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
 
 	listenHandle, err := q.Receive(ctx, func(ctx context.Context, message *servicebus.Message) servicebus.DispositionAction {
 		text := string(message.Data)
@@ -57,7 +55,6 @@ func ReceiveFromQueue() {
 		}
 		return message.Complete()
 	})
-	defer listenHandle.Close(context.Background())
 
 	//Not sure if this should stay
 	if err != nil {
@@ -66,6 +63,7 @@ func ReceiveFromQueue() {
 	}
 
 	log.Println("I am listening...")
+	return listenHandle
 }
 
 func getQueueToReceive(ns *servicebus.Namespace, queueName string) (*servicebus.Queue, error) {
@@ -112,5 +110,5 @@ func parseMessage(data []byte) (*Message, error) {
 }
 
 func Split(r rune) bool {
-	return r == '-' || r == ','
+	return r == ','
 }

@@ -1,6 +1,8 @@
 package actions
 
 import (
+	"context"
+
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/buffalo/middleware"
 	"github.com/gobuffalo/buffalo/middleware/ssl"
@@ -56,7 +58,7 @@ func App() *buffalo.App {
 		eventgrid.RegisterSubscriber(app, "/specsla", NewSpecslaSubscriber(&eventgrid.BaseSubscriber{}))
 		//app.POST("/receiver/message", ReceiverMessage)
 		//Create AMQP Listener
-		messages.ReceiveFromQueue()
+		messages.ReceiveFromQueue(context.Background())
 	}
 
 	return app
