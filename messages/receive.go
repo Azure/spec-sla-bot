@@ -17,7 +17,7 @@ type Message struct {
 	Assignee       string
 }
 
-func receiveFromQueue() {
+func ReceiveFromQueue() {
 	connStr := mustGetenv("SERVICEBUS_CONNECTION_STRING")
 	//connStr :=
 	ns, err := servicebus.NewNamespace(servicebus.NamespaceWithConnectionString(connStr))
@@ -33,53 +33,39 @@ func receiveFromQueue() {
 		os.Exit(1)
 	}
 
-	exit := make(chan struct{})
+	//exit := make(chan struct{})
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
 	listenHandle, err := q.Receive(ctx, func(ctx context.Context, message *servicebus.Message) servicebus.DispositionAction {
 		text := string(message.Data)
 		log.Print(text)
-		if text == "exit\n" {
-			//This will not be a part of my project
-			log.Println("Oh snap!! Someone told me to exit!")
-			exit <- *new(struct{})
-		} else {
-			//The message is not invalid so parse
-			log.Print("MADE IT TO RECEIVE")
-			log.Print(message.Data)
-			messageStruct, err := parseMessage(message.Data)
-			if err != nil {
-				log.Println(err)
-				//os.Exit(1)
-				return message.DeadLetter(err)
-			}
-			err = SendEmailToAssignee(messageStruct)
-			if err != nil {
-				log.Println(err)
-				os.Exit(1)
-			}
+
+		//The message is not invalid so parse
+		log.Print("MADE IT TO RECEIVE")
+		log.Print(message.Data)
+		messageStruct, err := parseMessage(message.Data)
+		if err != nil {
+			log.Println(err)
+			//os.Exit(1)
+			return message.DeadLetter(err)
+		}
+		err = SendEmailToAssignee(messageStruct)
+		if err != nil {
+			log.Println(err)
+			os.Exit(1)
 		}
 		return message.Complete()
 	})
 	defer listenHandle.Close(context.Background())
 
+	//Not sure if this should stay
 	if err != nil {
 		log.Println(err)
 		os.Exit(1)
 	}
 
 	log.Println("I am listening...")
-
-	select {
-	case <-exit:
-		log.Println("closing after 2 seconds")
-		select {
-		case <-time.After(2 * time.Second):
-			listenHandle.Close(context.Background())
-			return
-		}
-	}
 }
 
 func getQueueToReceive(ns *servicebus.Namespace, queueName string) (*servicebus.Queue, error) {
@@ -126,5 +112,5 @@ func parseMessage(data []byte) (*Message, error) {
 }
 
 func Split(r rune) bool {
-	return r == ','
+	return r == '-' || r == ','
 }

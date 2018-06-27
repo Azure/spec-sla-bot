@@ -8,6 +8,7 @@ import (
 	"github.com/unrolled/secure"
 
 	"github.com/Azure/buffalo-azure/sdk/eventgrid"
+	"github.com/Azure/spec-sla-bot/messages"
 	"github.com/gobuffalo/x/sessions"
 	"github.com/rs/cors"
 )
@@ -54,6 +55,8 @@ func App() *buffalo.App {
 		app.POST("/event/listen", EventListen)
 		eventgrid.RegisterSubscriber(app, "/specsla", NewSpecslaSubscriber(&eventgrid.BaseSubscriber{}))
 		//app.POST("/receiver/message", ReceiverMessage)
+		//Create AMQP Listener
+		messages.ReceiveFromQueue()
 	}
 
 	return app

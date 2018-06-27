@@ -24,7 +24,6 @@ func CheckAcknowledgement(event github.PullRequestEvent) {
 		message := fmt.Sprintf("PR id, %d, URL, %s, Assignee, %s", *event.PullRequest.ID, *event.PullRequest.URL, *event.PullRequest.Assignee.Login)
 		log.Print(message)
 		err := SendToQueue(message)
-		receiveFromQueue()
 		log.Print("SENT TO QUEUE")
 		if err != nil {
 			log.Printf("Message for event %d not delivered", *event.PullRequest.ID)
