@@ -16,7 +16,7 @@ RUN apk add --no-cache ca-certificates
 WORKDIR /bin/
 
 COPY --from=builder /bin/app .
-COPY --from=builder /go/src/github.com/Azure/spec-sla-bot/templates templates/
+COPY --from=builder /go-work/src/github.com/Azure/spec-sla-bot/templates templates/
 
 # Comment out to run the binary in "production" mode:
 # ENV GO_ENV=production
