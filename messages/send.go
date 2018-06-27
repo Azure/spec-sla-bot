@@ -10,7 +10,7 @@ import (
 )
 
 func SendToQueue(message string) error {
-	connStr := os.Getenv("SERVICEBUS_CONNECTION_STRING")
+	connStr := os.Getenv("CUSTOMCONNSTR_SERVICEBUS_CONNECTION_STRING")
 	ns, err := servicebus.NewNamespace(servicebus.NamespaceWithConnectionString(connStr))
 	if err != nil {
 		return err

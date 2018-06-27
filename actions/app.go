@@ -52,6 +52,7 @@ func App() *buffalo.App {
 		//  c.Value("tx").(*pop.PopTransaction)
 		// Remove to disable this.
 		//app.Use(middleware.PopTransaction(models.DB))
+
 		log.Print("Made it to home")
 		app.GET("/", HomeHandler)
 
