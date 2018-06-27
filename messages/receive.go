@@ -18,7 +18,7 @@ type Message struct {
 }
 
 func ReceiveFromQueue(ctx context.Context) *servicebus.ListenerHandle {
-	connStr := mustGetenv("COSTUMCONNSTR_SERVICEBUS_CONNECTION_STRING")
+	connStr := mustGetenv("CUSTOMCONNSTR_SERVICEBUS_CONNECTION_STRING")
 	//connStr :=
 	ns, err := servicebus.NewNamespace(servicebus.NamespaceWithConnectionString(connStr))
 	if err != nil {
