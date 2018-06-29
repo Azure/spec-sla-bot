@@ -50,7 +50,7 @@ func checkUnassigned(event github.PullRequestEvent) bool {
 
 func checkReviewed(event github.PullRequestEvent) bool {
 	if strings.Compare(*event.Action, "review_requested") == 0 {
-		if event.PullRequest.Assignee != nil {
+		if event.PullRequest.Assignee != nil && event.Sender != nil {
 			if strings.Compare(*event.PullRequest.Assignee.Name, *event.Sender.Name) == 0 {
 				//Update DB
 				return true
@@ -62,7 +62,7 @@ func checkReviewed(event github.PullRequestEvent) bool {
 
 func checkLabeled(event github.PullRequestEvent) bool {
 	if strings.Compare(*event.Action, "labeled") == 0 {
-		if event.PullRequest.Assignee != nil {
+		if event.PullRequest.Assignee != nil && event.Sender != nil {
 			if strings.Compare(*event.PullRequest.Assignee.Name, *event.Sender.Name) == 0 {
 				//Update DB
 				return true
@@ -97,7 +97,7 @@ func checkOpened(event github.PullRequestEvent) bool {
 
 func checkEdited(event github.PullRequestEvent) bool {
 	if strings.Compare(*event.Action, "edited") == 0 {
-		if event.PullRequest.Assignee != nil {
+		if event.PullRequest.Assignee != nil && event.Sender != nil {
 			if strings.Compare(*event.PullRequest.Assignee.Name, *event.Sender.Name) == 0 {
 				//Update DB to accept messages
 				return true
