@@ -56,7 +56,7 @@ func App() *buffalo.App {
 		log.Print("Made it to home")
 		app.GET("/", HomeHandler)
 
-		app.POST("/event/listen", EventListen)
+		//app.POST("/event/listen", EventListen)
 		log.Print("Made to event listen")
 		eventgrid.RegisterSubscriber(app, "/specsla", NewSpecslaSubscriber(&eventgrid.BaseSubscriber{}))
 		//app.POST("/receiver/message", ReceiverMessage)

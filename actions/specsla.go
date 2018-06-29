@@ -46,7 +46,7 @@ func (s *SpecslaSubscriber) ReceivePullRequestEvent(c buffalo.Context, e eventgr
 }
 
 // ReceiveLabelEvent will respond to an `eventgrid.Event` carrying a serialized `LabelEvent` as its payload.
-func (s *SpecslaSubscriber) ReceiveLabelEvent(c buffalo.Context, e eventgrid.Event) error {
+/*func (s *SpecslaSubscriber) ReceiveLabelEvent(c buffalo.Context, e eventgrid.Event) error {
 	var payload github.LabelEvent
 
 	if err := json.Unmarshal(e.Data, &payload); err != nil {
@@ -55,4 +55,4 @@ func (s *SpecslaSubscriber) ReceiveLabelEvent(c buffalo.Context, e eventgrid.Eve
 
 	// Replace the code below with your logic
 	return c.Render(200, render.JSON(map[string]string{"message": "Hopefully this works", "label name for last event": *payload.Label.Name}))
-}
+}*/

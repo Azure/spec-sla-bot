@@ -63,10 +63,10 @@ func checkReviewed(event github.PullRequestEvent) bool {
 func checkLabeled(event github.PullRequestEvent) bool {
 	if strings.Compare(*event.Action, "labeled") == 0 {
 		if event.PullRequest.Assignee != nil && event.Sender != nil {
-			if strings.Compare(*event.PullRequest.Assignee.Name, *event.Sender.Name) == 0 {
-				//Update DB
-				return true
-			}
+			//if strings.Compare(*event.PullRequest.Assignee.Name, *event.Sender.Name) == 0 {
+			//Update DB
+			return true
+			//}
 		}
 	}
 	return false
@@ -98,10 +98,10 @@ func checkOpened(event github.PullRequestEvent) bool {
 func checkEdited(event github.PullRequestEvent) bool {
 	if strings.Compare(*event.Action, "edited") == 0 {
 		if event.PullRequest.Assignee != nil && event.Sender != nil {
-			if strings.Compare(*event.PullRequest.Assignee.Name, *event.Sender.Name) == 0 {
-				//Update DB to accept messages
-				return true
-			}
+			//if strings.Compare(*event.PullRequest.Assignee.Name, *event.Sender.Name) == 0 {
+			//Update DB to accept messages
+			return true
+			//}
 		}
 	}
 	return false
