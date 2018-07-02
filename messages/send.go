@@ -24,8 +24,13 @@ func SendToQueue(message string) error {
 		return err
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	future := time.Now().UTC().Add(1 * time.Minute)
+	msg := servicebus.NewMessageFromString(message)
+	msg.SystemProperties = &servicebus.SystemProperties{
+		ScheduledEnqueuedTime: &future,
+	}
 	log.Print(message)
-	q.Send(ctx, servicebus.NewMessageFromString(message))
+	q.Send(ctx, msg)
 	cancel()
 	return nil
 }
