@@ -44,7 +44,6 @@ func CheckAcknowledgementComment(event github.IssueCommentEvent) {
 			log.Printf("Message for event %d not delivered", *event.Issue.ID)
 		}
 	}
-
 }
 
 func checkCommented(event github.IssueCommentEvent) bool {
