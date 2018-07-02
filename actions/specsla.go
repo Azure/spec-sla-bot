@@ -47,7 +47,7 @@ func (s *SpecslaSubscriber) ReceivePullRequestEvent(c buffalo.Context, e eventgr
 }
 
 func (s *SpecslaSubscriber) ReceiveIssueCommentEvent(c buffalo.Context, e eventgrid.Event) error {
-	var payload github.PullRequestEvent
+	var payload github.IssueCommentEvent
 
 	if err := json.Unmarshal(e.Data, &payload); err != nil {
 		return c.Error(http.StatusBadRequest, errors.New("unable to unmarshal request data"))
