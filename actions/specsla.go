@@ -26,6 +26,7 @@ func NewSpecslaSubscriber(parent eventgrid.Subscriber) (created *SpecslaSubscrib
 	}
 
 	dispatcher.Bind("Github.PullRequestEvent", created.ReceivePullRequestEvent)
+	dispatcher.Bind("Github.IssueCommentEvent", created.ReceiveIssueCommentEvent)
 	dispatcher.Bind(eventgrid.EventTypeWildcard, created.ReceiveDefault)
 
 	return
@@ -40,6 +41,19 @@ func (s *SpecslaSubscriber) ReceivePullRequestEvent(c buffalo.Context, e eventgr
 	}
 	c.Logger().Debug("HERE")
 	messages.CheckAcknowledgement(payload)
+
+	// Replace the code below with your logic
+	return c.Render(200, render.JSON(map[string]string{"message": "Hopefully this works"}))
+}
+
+func (s *SpecslaSubscriber) ReceiveIssueCommentEvent(c buffalo.Context, e eventgrid.Event) error {
+	var payload github.PullRequestEvent
+
+	if err := json.Unmarshal(e.Data, &payload); err != nil {
+		return c.Error(http.StatusBadRequest, errors.New("unable to unmarshal request data"))
+	}
+	c.Logger().Debug("Check acknowledgement of comment on PR")
+	messages.CheckAcknowledgementComment(payload)
 
 	// Replace the code below with your logic
 	return c.Render(200, render.JSON(map[string]string{"message": "Hopefully this works"}))

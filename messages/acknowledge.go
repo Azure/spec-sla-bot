@@ -34,6 +34,27 @@ func CheckAcknowledgement(event github.PullRequestEvent) {
 	//error
 }
 
+func CheckAcknowledgementComment(event github.IssueCommentEvent) {
+	if checkCommented(event) {
+		message := fmt.Sprintf("PR id, %d, URL, %s, Assignee, %s", *event.Issue.ID, *event.Issue.URL, *event.Issue.Assignee.Login)
+		log.Print(message)
+		err := SendToQueue(message)
+		log.Print("SENT TO QUEUE")
+		if err != nil {
+			log.Printf("Message for event %d not delivered", *event.Issue.ID)
+		}
+	}
+
+}
+
+func checkCommented(event github.IssueCommentEvent) bool {
+	//check that the issue is not nil and that the issue id is a pr id in the db
+	if event.Issue != nil && event.Issue.Assignee != nil {
+		return true
+	}
+	return false
+}
+
 func checkAssigned(event github.PullRequestEvent) bool {
 	if strings.Compare(*event.Action, "assigned") == 0 {
 		//Update PR in DB to accept messages
