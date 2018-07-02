@@ -17,32 +17,33 @@ type Message struct {
 	Assignee       string
 }
 
-func ReceiveFromQueue(ctx context.Context) *servicebus.ListenerHandle {
+func ReceiveFromQueue(ctx context.Context) (*servicebus.ListenerHandle, error) {
 	connStr := mustGetenv("CUSTOMCONNSTR_SERVICEBUS_CONNECTION_STRING")
 	//connStr :=
 	ns, err := servicebus.NewNamespace(servicebus.NamespaceWithConnectionString(connStr))
+	log.Print("new namespace created")
 	if err != nil {
 		log.Println(err)
-		os.Exit(1)
+		return nil, err
 	}
 
 	queueName := "24hrgitevents"
 	q, err := getQueueToReceive(ns, queueName)
 	if err != nil {
 		log.Printf("failed to build a new queue named %q\n", queueName)
-		os.Exit(1)
+		return nil, err
 	}
+	log.Print("got queue to receive")
 
-	//exit := make(chan struct{})
-
+	log.Print("before receive")
 	listenHandle, err := q.Receive(ctx, func(ctx context.Context, message *servicebus.Message) servicebus.DispositionAction {
 		text := string(message.Data)
 		log.Print(text)
 
 		//The message is not invalid so parse
 		log.Print("MADE IT TO RECEIVE")
-		log.Print(message.Data)
 		messageStruct, err := parseMessage(message.Data)
+		log.Print("parsed message")
 		if err != nil {
 			log.Println(err)
 			//os.Exit(1)
@@ -51,19 +52,20 @@ func ReceiveFromQueue(ctx context.Context) *servicebus.ListenerHandle {
 		err = SendEmailToAssignee(messageStruct)
 		if err != nil {
 			log.Println(err)
-			os.Exit(1)
+			return nil
 		}
+		log.Print("sent email")
 		return message.Complete()
 	})
 
 	//Not sure if this should stay
 	if err != nil {
 		log.Println(err)
-		os.Exit(1)
+		return nil, err
 	}
 
 	log.Println("I am listening...")
-	return listenHandle
+	return listenHandle, nil
 }
 
 func getQueueToReceive(ns *servicebus.Namespace, queueName string) (*servicebus.Queue, error) {

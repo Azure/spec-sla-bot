@@ -20,6 +20,8 @@ func CheckAcknowledgement(event github.PullRequestEvent) {
 	} else if event.PullRequest.Assignee != nil && (checkAssigned(event) || checkReviewed(event) || checkEdited(event) || checkLabeled(event) || checkOpened(event)) {
 		//send a message with PR id
 		//Format string with PR ID
+		log.Printf("Close: %s, Unassigned: %s, Opened: %s, Assigned: %s, Reviewed: %s, Edited: %s, Labeled: %s", checkClosed(event), checkUnassigned(event), checkOpened(event),
+			checkAssigned(event), checkReviewed(event), checkEdited(event), checkLabeled(event))
 		log.Print("MADE IT HERE")
 		message := fmt.Sprintf("PR id, %d, URL, %s, Assignee, %s", *event.PullRequest.ID, *event.PullRequest.URL, *event.PullRequest.Assignee.Login)
 		log.Print(message)
@@ -98,7 +100,7 @@ func checkOpened(event github.PullRequestEvent) bool {
 func checkEdited(event github.PullRequestEvent) bool {
 	if strings.Compare(*event.Action, "edited") == 0 {
 		if event.PullRequest.Assignee != nil && event.Sender != nil {
-			//if strings.Compare(*event.PullRequest.Assignee.Name, *event.Sender.Name) == 0 {
+			//if strings.Compare(*event.PullRequest.Assignee.Name, *event.Sender.) == 0 {
 			//Update DB to accept messages
 			return true
 			//}

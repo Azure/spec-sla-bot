@@ -26,7 +26,7 @@ func NewSpecslaSubscriber(parent eventgrid.Subscriber) (created *SpecslaSubscrib
 	}
 
 	dispatcher.Bind("Github.PullRequestEvent", created.ReceivePullRequestEvent)
-	//dispatcher.Bind("Github.LabelEvent", created.ReceiveLabelEvent)
+	dispatcher.Bind(eventgrid.EventTypeWildcard, created.ReceiveDefault)
 
 	return
 }
@@ -45,14 +45,6 @@ func (s *SpecslaSubscriber) ReceivePullRequestEvent(c buffalo.Context, e eventgr
 	return c.Render(200, render.JSON(map[string]string{"message": "Hopefully this works"}))
 }
 
-// ReceiveLabelEvent will respond to an `eventgrid.Event` carrying a serialized `LabelEvent` as its payload.
-/*func (s *SpecslaSubscriber) ReceiveLabelEvent(c buffalo.Context, e eventgrid.Event) error {
-	var payload github.LabelEvent
-
-	if err := json.Unmarshal(e.Data, &payload); err != nil {
-		return c.Error(http.StatusBadRequest, errors.New("unable to unmarshal request data"))
-	}
-
-	// Replace the code below with your logic
-	return c.Render(200, render.JSON(map[string]string{"message": "Hopefully this works", "label name for last event": *payload.Label.Name}))
-}*/
+func (s *SpecslaSubscriber) ReceiveDefault(c buffalo.Context, e eventgrid.Event) error {
+	return c.Render(200, render.JSON(map[string]string{"message": "Hopefully this works"}))
+}
