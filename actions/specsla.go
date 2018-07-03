@@ -60,5 +60,6 @@ func (s *SpecslaSubscriber) ReceiveIssueCommentEvent(c buffalo.Context, e eventg
 }
 
 func (s *SpecslaSubscriber) ReceiveDefault(c buffalo.Context, e eventgrid.Event) error {
+	c.Logger().Debug(e)
 	return c.Render(200, render.JSON(map[string]string{"message": "Hopefully this works"}))
 }
