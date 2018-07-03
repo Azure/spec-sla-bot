@@ -63,6 +63,7 @@ func App() *buffalo.App {
 		//Create AMQP Listener
 		messages.ReceiveFromQueue(context.Background())
 		app.Resource("/assignees", AssigneesResource{})
+		app.Resource("/prs", PRsResource{})
 	}
 
 	return app

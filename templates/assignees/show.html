@@ -4,8 +4,8 @@
 
 <ul class="list-unstyled list-inline">
   <li><a href="<%= assigneesPath() %>" class="btn btn-info">Back to all Assignees</a></li>
-  <li><a href="<%= editAssigneePath({ assignee_id: assignee.AssigneeID })%>" class="btn btn-warning">Edit</a></li>
-  <li><a href="<%= assigneePath({ assignee_id: assignee.AssigneeID })%>" data-method="DELETE" data-confirm="Are you sure?" class="btn btn-danger">Destroy</a>
+  <li><a href="<%= editAssigneePath({ assignee_id: assignee.ID })%>" class="btn btn-warning">Edit</a></li>
+  <li><a href="<%= assigneePath({ assignee_id: assignee.ID })%>" data-method="DELETE" data-confirm="Are you sure?" class="btn btn-danger">Destroy</a>
 </ul>
 
 <p>

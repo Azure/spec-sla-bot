@@ -1,0 +1,58 @@
+<div class="page-header">
+  <h1>PR#Show</h1>
+</div>
+
+<ul class="list-unstyled list-inline">
+  <li><a href="<%= pRsPath() %>" class="btn btn-info">Back to all PRs</a></li>
+  <li><a href="<%= editPRPath({ pr_id: pR.ID })%>" class="btn btn-warning">Edit</a></li>
+  <li><a href="<%= pRPath({ pr_id: pR.ID })%>" data-method="DELETE" data-confirm="Are you sure?" class="btn btn-danger">Destroy</a>
+</ul>
+
+<p>
+  <strong>URL</strong>: <%= pR.URL %>
+</p>
+<p>
+  <strong>HtmlUrl</strong>: <%= pR.HtmlUrl %>
+</p>
+<p>
+  <strong>IssueUrl</strong>: <%= pR.IssueUrl %>
+</p>
+<p>
+  <strong>Number</strong>: <%= pR.Number %>
+</p>
+<p>
+  <strong>State</strong>: <%= pR.State %>
+</p>
+<p>
+  <strong>Locked</strong>: <%= pR.Locked %>
+</p>
+<p>
+  <strong>Title</strong>: <%= pR.Title %>
+</p>
+<p>
+  <strong>Body</strong>: <%= pR.Body %>
+</p>
+<p>
+  <strong>PrCreatedAt</strong>: <%= pR.PrCreatedAt %>
+</p>
+<p>
+  <strong>PrUpdatedAt</strong>: <%= pR.PrUpdatedAt %>
+</p>
+<p>
+  <strong>PrMergedAt</strong>: <%= pR.PrMergedAt %>
+</p>
+<p>
+  <strong>PrClosedAt</strong>: <%= pR.PrClosedAt %>
+</p>
+<p>
+  <strong>CommitsUrl</strong>: <%= pR.CommitsUrl %>
+</p>
+<p>
+  <strong>CommentsUrl</strong>: <%= pR.CommentsUrl %>
+</p>
+<p>
+  <strong>StatusUrl</strong>: <%= pR.StatusUrl %>
+</p>
+<p>
+  <strong>ExpireTime</strong>: <%= pR.ExpireTime %>
+</p>

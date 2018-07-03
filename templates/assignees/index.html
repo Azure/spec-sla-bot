@@ -20,9 +20,9 @@
         <td><%= assignee.HtmlUrl %></td>
         <td>
           <div class="pull-right">
-            <a href="<%= assigneePath({ assignee_id: assignee.AssigneeID }) %>" class="btn btn-info">View</a>
-            <a href="<%= editAssigneePath({ assignee_id: assignee.AssigneeID }) %>" class="btn btn-warning">Edit</a>
-            <a href="<%= assigneePath({ assignee_id: assignee.AssigneeID }) %>" data-method="DELETE" data-confirm="Are you sure?" class="btn btn-danger">Destroy</a>
+            <a href="<%= assigneePath({ assignee_id: assignee.ID }) %>" class="btn btn-info">View</a>
+            <a href="<%= editAssigneePath({ assignee_id: assignee.ID }) %>" class="btn btn-warning">Edit</a>
+            <a href="<%= assigneePath({ assignee_id: assignee.ID }) %>" data-method="DELETE" data-confirm="Are you sure?" class="btn btn-danger">Destroy</a>
           </div>
         </td>
       </tr>
