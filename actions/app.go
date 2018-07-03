@@ -62,6 +62,7 @@ func App() *buffalo.App {
 		//app.POST("/receiver/message", ReceiverMessage)
 		//Create AMQP Listener
 		messages.ReceiveFromQueue(context.Background())
+		app.Resource("/assignees", AssigneesResource{})
 	}
 
 	return app

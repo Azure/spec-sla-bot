@@ -1,0 +1,19 @@
+<div class="page-header">
+  <h1>Assignee#Show</h1>
+</div>
+
+<ul class="list-unstyled list-inline">
+  <li><a href="<%= assigneesPath() %>" class="btn btn-info">Back to all Assignees</a></li>
+  <li><a href="<%= editAssigneePath({ assignee_id: assignee.AssigneeID })%>" class="btn btn-warning">Edit</a></li>
+  <li><a href="<%= assigneePath({ assignee_id: assignee.AssigneeID })%>" data-method="DELETE" data-confirm="Are you sure?" class="btn btn-danger">Destroy</a>
+</ul>
+
+<p>
+  <strong>Login</strong>: <%= assignee.Login %>
+</p>
+<p>
+  <strong>Type</strong>: <%= assignee.Type %>
+</p>
+<p>
+  <strong>HtmlUrl</strong>: <%= assignee.HtmlUrl %>
+</p>

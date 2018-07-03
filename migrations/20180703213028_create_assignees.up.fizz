@@ -1,0 +1,6 @@
+create_table("assignees", func(t) {
+	t.Column("assignee_id", "uuid", {"primary": true})
+	t.Column("login", "string", {})
+	t.Column("type", "string", {})
+	t.Column("html_url", "string", {})
+})

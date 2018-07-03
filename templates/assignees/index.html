@@ -1,0 +1,35 @@
+<div class="page-header">
+  <h1>Assignees</h1>
+</div>
+<ul class="list-unstyled list-inline">
+  <li><a href="<%= newAssigneesPath() %>" class="btn btn-primary">Create New Assignee</a></li>
+</ul>
+
+<table class="table table-striped">
+  <thead>
+  <th>Login</th>
+    <th>Type</th>
+    <th>HtmlUrl</th>
+    <th>&nbsp;</th>
+  </thead>
+  <tbody>
+    <%= for (assignee) in assignees { %>
+      <tr>
+      <td><%= assignee.Login %></td>
+        <td><%= assignee.Type %></td>
+        <td><%= assignee.HtmlUrl %></td>
+        <td>
+          <div class="pull-right">
+            <a href="<%= assigneePath({ assignee_id: assignee.AssigneeID }) %>" class="btn btn-info">View</a>
+            <a href="<%= editAssigneePath({ assignee_id: assignee.AssigneeID }) %>" class="btn btn-warning">Edit</a>
+            <a href="<%= assigneePath({ assignee_id: assignee.AssigneeID }) %>" data-method="DELETE" data-confirm="Are you sure?" class="btn btn-danger">Destroy</a>
+          </div>
+        </td>
+      </tr>
+    <% } %>
+  </tbody>
+</table>
+
+<div class="text-center">
+  <%= paginator(pagination) %>
+</div>
