@@ -11,12 +11,13 @@ import (
 )
 
 type Assignee struct {
-	ID        uuid.UUID `json:"id" db:"id"`
-	CreatedAt time.Time `json:"created_at" db:"created_at"`
-	UpdatedAt time.Time `json:"updated_at" db:"updated_at"`
-	Login     string    `json:"login" db:"login"`
-	Type      string    `json:"type" db:"type"`
-	HtmlUrl   string    `json:"html_url" db:"html_url"`
+	ID            uuid.UUID `json:"id" db:"id"`
+	CreatedAt     time.Time `json:"created_at" db:"created_at"`
+	UpdatedAt     time.Time `json:"updated_at" db:"updated_at"`
+	Login         string    `json:"login" db:"login"`
+	Type          string    `json:"type" db:"type"`
+	HtmlUrl       string    `json:"html_url" db:"html_url"`
+	AssigneeEmail Email     `many_to_many:"email_assignees"`
 }
 
 // String is not required by pop and may be deleted

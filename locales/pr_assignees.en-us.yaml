@@ -1,0 +1,6 @@
+- id: "pr_assignee.created.success"
+  translation: "PRAssignee was successfully created."
+- id: "pr_assignee.updated.success"
+  translation: "PRAssignee was successfully updated."
+- id: "pr_assignee.destroyed.success"
+  translation: "PRAssignee was successfully destroyed."

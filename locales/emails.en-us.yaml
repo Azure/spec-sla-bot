@@ -1,0 +1,6 @@
+- id: "email.created.success"
+  translation: "Email was successfully created."
+- id: "email.updated.success"
+  translation: "Email was successfully updated."
+- id: "email.destroyed.success"
+  translation: "Email was successfully destroyed."

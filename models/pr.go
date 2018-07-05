@@ -30,6 +30,8 @@ type PR struct {
 	CommentsUrl string    `json:"comments_url" db:"comments_url"`
 	StatusUrl   string    `json:"status_url" db:"status_url"`
 	ExpireTime  string    `json:"expire_time" db:"expire_time"`
+	Assignees   Assignee  `many_to_many:"pr_assignees"`
+	Events      Event     `has_many:"events"`
 }
 
 // String is not required by pop and may be deleted

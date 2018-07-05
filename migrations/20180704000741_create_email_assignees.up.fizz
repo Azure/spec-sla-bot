@@ -1,0 +1,6 @@
+create_table("email_assignees", func(t) {
+	t.Column("email_id", "uuid", {"primary": true})
+	t.Column("assignee_id", "uuid", {"primary": true})
+	t.ForeignKey("email_id", {"emails":["id"]}, {})
+	t.ForeignKey("assignee_id", {"assignees":["id"]}, {})
+})

@@ -64,6 +64,10 @@ func App() *buffalo.App {
 		messages.ReceiveFromQueue(context.Background())
 		app.Resource("/assignees", AssigneesResource{})
 		app.Resource("/prs", PRsResource{})
+		app.Resource("/p_r_assignees", PRAssigneesResource{})
+		app.Resource("/events", EventsResource{})
+		app.Resource("/emails", EmailsResource{})
+		app.Resource("/email_assignees", EmailAssigneesResource{})
 	}
 
 	return app

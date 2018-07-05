@@ -1,0 +1,6 @@
+create_table("pr_assignees", func(t) {
+	t.Column("pr_id", "uuid", {"primary": true})
+	t.Column("assignee_id", "uuid", {"primary": true})
+	t.ForeignKey("pr_id", {"prs":["id"]}, {})
+	t.ForeignKey("assignee_id", {"assignees":["id"]}, {})
+})

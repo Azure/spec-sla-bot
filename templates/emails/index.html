@@ -1,0 +1,33 @@
+<div class="page-header">
+  <h1>Emails</h1>
+</div>
+<ul class="list-unstyled list-inline">
+  <li><a href="<%= newEmailsPath() %>" class="btn btn-primary">Create New Email</a></li>
+</ul>
+
+<table class="table table-striped">
+  <thead>
+  <th>PrID</th>
+    <th>TimeSent</th>
+    <th>&nbsp;</th>
+  </thead>
+  <tbody>
+    <%= for (email) in emails { %>
+      <tr>
+      <td><%= email.PrID %></td>
+        <td><%= email.TimeSent %></td>
+        <td>
+          <div class="pull-right">
+            <a href="<%= emailPath({ email_id: email.ID }) %>" class="btn btn-info">View</a>
+            <a href="<%= editEmailPath({ email_id: email.ID }) %>" class="btn btn-warning">Edit</a>
+            <a href="<%= emailPath({ email_id: email.ID }) %>" data-method="DELETE" data-confirm="Are you sure?" class="btn btn-danger">Destroy</a>
+          </div>
+        </td>
+      </tr>
+    <% } %>
+  </tbody>
+</table>
+
+<div class="text-center">
+  <%= paginator(pagination) %>
+</div>
