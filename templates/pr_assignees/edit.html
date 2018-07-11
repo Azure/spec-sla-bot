@@ -1,8 +1,0 @@
-<div class="page-header">
-  <h1>Edit PRAssignee</h1>
-</div>
-
-<%= form_for(pRAssignee, {action: pRAssigneePath({ p_r_assignee_id: pRAssignee.ID }), method: "PUT"}) { %>
-  <%= partial("pr_assignees/form.html") %>
-  <a href="<%= pRAssigneePath({ pr_assignee_id: pRAssignee.ID }) %>" class="btn btn-warning" data-confirm="Are you sure?">Cancel</a>
-<% } %>

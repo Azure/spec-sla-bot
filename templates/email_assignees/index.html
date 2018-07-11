@@ -7,12 +7,16 @@
 
 <table class="table table-striped">
   <thead>
-  <th>&nbsp;</th>
+  <th>EmailID</th>
+    <th>AssigneeID</th>
+    <th>&nbsp;</th>
   </thead>
   <tbody>
     <%= for (emailAssignee) in emailAssignees { %>
       <tr>
-      <td>
+      <td><%= emailAssignee.EmailID %></td>
+        <td><%= emailAssignee.AssigneeID %></td>
+        <td>
           <div class="pull-right">
             <a href="<%= emailAssigneePath({ email_assignee_id: emailAssignee.ID }) %>" class="btn btn-info">View</a>
             <a href="<%= editEmailAssigneePath({ email_assignee_id: emailAssignee.ID }) %>" class="btn btn-warning">Edit</a>

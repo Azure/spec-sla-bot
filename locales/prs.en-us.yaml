@@ -1,6 +1,0 @@
-- id: "pr.created.success"
-  translation: "PR was successfully created."
-- id: "pr.updated.success"
-  translation: "PR was successfully updated."
-- id: "pr.destroyed.success"
-  translation: "PR was successfully destroyed."

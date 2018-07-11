@@ -10,10 +10,11 @@ import (
 )
 
 type EmailAssignee struct {
-	EmailID    uuid.UUID `json:"email_id" db:"email_id"`
-	AssigneeID uuid.UUID `json:"assignee_id" db:"assignee_id"`
+	ID         uuid.UUID `json:"id" db:"id"`
 	CreatedAt  time.Time `json:"created_at" db:"created_at"`
 	UpdatedAt  time.Time `json:"updated_at" db:"updated_at"`
+	EmailID    uuid.UUID `json:"email_id" db:"email_id"`
+	AssigneeID string    `json:"assignee_id" db:"assignee_id"`
 }
 
 // String is not required by pop and may be deleted
@@ -34,7 +35,10 @@ func (e EmailAssignees) String() string {
 // Validate gets run every time you call a "pop.Validate*" (pop.ValidateAndSave, pop.ValidateAndCreate, pop.ValidateAndUpdate) method.
 // This method is not required and may be deleted.
 func (e *EmailAssignee) Validate(tx *pop.Connection) (*validate.Errors, error) {
-	return validate.NewErrors(), nil
+	return validate.Validate(
+	//&validators.StringIsPresent{Field: e.EmailID, Name: "EmailID"},
+	//&validators.StringIsPresent{Field: e.AssigneeID, Name: "AssigneeID"},
+	), nil
 }
 
 // ValidateCreate gets run every time you call "pop.ValidateAndCreate" method.

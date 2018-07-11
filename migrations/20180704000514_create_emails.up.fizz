@@ -1,5 +1,0 @@
-create_table("emails", func(t) {
-	t.Column("id", "uuid", {"primary": true})
-	t.Column("pr_id", "string", {})
-	t.Column("time_sent", "string", {})
-})

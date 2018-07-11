@@ -21,8 +21,8 @@
     "sas",
     "uuid"
   ]
-  revision = "8d02d4e77aba80165452199bb9bb24a82eb3b219"
-  version = "v0.5.0"
+  revision = "e05d7e9b03e1fd3a074d0f0b819bad445e3a0a69"
+  version = "v0.6.0"
 
 [[projects]]
   name = "github.com/Azure/azure-sdk-for-go"
@@ -34,19 +34,19 @@
   version = "v15.3.0"
 
 [[projects]]
-  branch = "master"
   name = "github.com/Azure/azure-service-bus-go"
   packages = [
     ".",
     "atom"
   ]
-  revision = "d5416b8c12184fffc9b6b39dd0aea92da7ba5136"
+  revision = "88613d3356e8ce24659eb44cc5bd6a34e250703a"
+  version = "v0.1.0"
 
 [[projects]]
   name = "github.com/Azure/buffalo-azure"
   packages = ["sdk/eventgrid"]
-  revision = "0cb97d295bd76446a172d267b1e90f625d54f60f"
-  version = "v0.1.1"
+  revision = "578d16f4ecbf3a0cfecbe14e839e2362859c3545"
+  version = "v0.1.4"
 
 [[projects]]
   name = "github.com/Azure/go-autorest"
@@ -58,8 +58,8 @@
     "autorest/to",
     "autorest/validation"
   ]
-  revision = "f04d503958a4fe854c1b41667c73f8813c9dd9c3"
-  version = "v10.11.2"
+  revision = "1f7cd6cfe0adea687ad44a512dfe76140f804318"
+  version = "v10.12.0"
 
 [[projects]]
   name = "github.com/BurntSushi/toml"
@@ -128,6 +128,7 @@
     "binding",
     "middleware",
     "middleware/csrf",
+    "middleware/i18n",
     "middleware/ssl",
     "render",
     "worker"
@@ -140,6 +141,15 @@
   packages = ["."]
   revision = "2d0f467653f3d961ce9ada4d32a230bdcb3bfe11"
   version = "v1.6.3"
+
+[[projects]]
+  name = "github.com/gobuffalo/fizz"
+  packages = [
+    ".",
+    "translators"
+  ]
+  revision = "25461ee937655cd1136523f6653d5bd15343cc48"
+  version = "v1.0.1"
 
 [[projects]]
   name = "github.com/gobuffalo/makr"
@@ -162,8 +172,8 @@
     "parser",
     "token"
   ]
-  revision = "6cd5bf0d0c9b3623f2a89a2832387c584fb5e274"
-  version = "v3.7.5"
+  revision = "2ec029f415ed9a8a1448a5bb389d79084d606035"
+  version = "v3.7.7"
 
 [[projects]]
   name = "github.com/gobuffalo/pop"
@@ -171,12 +181,11 @@
     ".",
     "associations",
     "columns",
-    "fizz",
-    "fizz/translators",
+    "fix",
     "nulls"
   ]
-  revision = "9985012f32f5e36b1a10e9191ee460daac4a9bc7"
-  version = "v4.5.9"
+  revision = "d450dceee701794bf97822ba0bdeb31213f08457"
+  version = "v4.6.0"
 
 [[projects]]
   name = "github.com/gobuffalo/suite"
@@ -184,8 +193,8 @@
     ".",
     "fix"
   ]
-  revision = "e2e0134eb87394466461f262c7cb7027b9e332e0"
-  version = "v2.1.1"
+  revision = "e731d05da4535a4a3bd8f22fb7cd231d555e0a41"
+  version = "v2.1.2"
 
 [[projects]]
   name = "github.com/gobuffalo/tags"
@@ -194,8 +203,8 @@
     "form",
     "form/bootstrap"
   ]
-  revision = "82cd7696c84aba829b74e81814ff489b64e7b56a"
-  version = "v2.0.5"
+  revision = "96c7cdfcadcb28eb1b42b9080ba7f93936ffc5c5"
+  version = "v2.0.7"
 
 [[projects]]
   name = "github.com/gobuffalo/uuid"
@@ -215,10 +224,7 @@
 [[projects]]
   branch = "master"
   name = "github.com/gobuffalo/x"
-  packages = [
-    "httpx",
-    "sessions"
-  ]
+  packages = ["httpx"]
   revision = "11ca13c05abd73167c56ed10f8874c7c7497f759"
 
 [[projects]]
@@ -288,7 +294,6 @@
   revision = "90697d60dd844d5ef6ff15135d0203f65d2f53b8"
 
 [[projects]]
-  branch = "master"
   name = "github.com/markbates/going"
   packages = [
     "defaults",
@@ -296,24 +301,25 @@
     "wait"
   ]
   revision = "0576708c56cea02331f864fe6e157ac7841923e4"
+  version = "v1.0.0"
 
 [[projects]]
-  branch = "master"
   name = "github.com/markbates/grift"
   packages = ["grift"]
   revision = "76f93617a788d350124f749acb3790276a436cc0"
+  version = "v1.0.0"
 
 [[projects]]
-  branch = "master"
   name = "github.com/markbates/hmax"
   packages = ["."]
   revision = "800e180dcd16937a4cc134c6aa8c8407e62ce880"
+  version = "v1.0.0"
 
 [[projects]]
-  branch = "master"
   name = "github.com/markbates/inflect"
   packages = ["."]
   revision = "dd7de90c06bca70f18136e59dec2270c19a401e7"
+  version = "v1.0.0"
 
 [[projects]]
   name = "github.com/markbates/refresh"
@@ -331,21 +337,10 @@
   version = "v1.0.0"
 
 [[projects]]
-  branch = "master"
   name = "github.com/markbates/willie"
   packages = ["."]
   revision = "67934945178ed6f7799c3a001e2dde57315558c2"
-
-[[projects]]
-  name = "github.com/mattn/anko"
-  packages = [
-    "ast",
-    "core",
-    "parser",
-    "vm"
-  ]
-  revision = "e9c5c0ca86cf129292c56ddbddc4fff027844d65"
-  version = "v0.0.4"
+  version = "v1.0.0"
 
 [[projects]]
   name = "github.com/mattn/go-colorable"
@@ -369,7 +364,7 @@
   branch = "master"
   name = "github.com/microcosm-cc/bluemonday"
   packages = ["."]
-  revision = "995366fdf961d03629cd17361bddd32745718e2c"
+  revision = "f0761eb8ed07c1cc892ef631b00c33463b9b6868"
 
 [[projects]]
   branch = "master"
@@ -390,6 +385,17 @@
   version = "v3.0"
 
 [[projects]]
+  name = "github.com/nicksnyder/go-i18n"
+  packages = [
+    "i18n",
+    "i18n/bundle",
+    "i18n/language",
+    "i18n/translation"
+  ]
+  revision = "0dc1626d56435e9d605a29875701721c54bc9bbd"
+  version = "v1.10.0"
+
+[[projects]]
   name = "github.com/opentracing/opentracing-go"
   packages = [
     ".",
@@ -398,6 +404,12 @@
   ]
   revision = "1949ddbfd147afd4d964a9f00b24eb291e0e7c38"
   version = "v1.0.2"
+
+[[projects]]
+  name = "github.com/pelletier/go-toml"
+  packages = ["."]
+  revision = "c01d1270ff3e442a8a57cddc1c92dc1138598194"
+  version = "v1.2.0"
 
 [[projects]]
   name = "github.com/pkg/errors"
@@ -410,12 +422,6 @@
   packages = ["difflib"]
   revision = "792786c7400a136282c1664665ae0a8db921c6c2"
   version = "v1.0.0"
-
-[[projects]]
-  name = "github.com/rs/cors"
-  packages = ["."]
-  revision = "ca016a06a5753f8ba03029c0aa5e54afb1bf713f"
-  version = "v1.4.0"
 
 [[projects]]
   branch = "master"
@@ -520,7 +526,7 @@
   branch = "master"
   name = "github.com/unrolled/secure"
   packages = ["."]
-  revision = "a1cf62cc2159fff407728f118c41aece76c397fa"
+  revision = "8287f3899c8e3d490748e18fe7d438629132914e"
 
 [[projects]]
   branch = "master"
@@ -530,7 +536,7 @@
     "blowfish",
     "ssh/terminal"
   ]
-  revision = "5cd40a374b80f104c75043e6a04071d3a743ffd9"
+  revision = "a49355c7e3f8fe157a85be2f77e6e269a0f89602"
 
 [[projects]]
   branch = "master"
@@ -540,7 +546,7 @@
     "html",
     "html/atom"
   ]
-  revision = "db08ff08e8622530d9ed3a0e8ac279f6d4c02196"
+  revision = "6a8eb5e2b1816b30aa88d7e3ecf9eb7c4559d9e6"
 
 [[projects]]
   branch = "master"
@@ -555,13 +561,13 @@
     "unix",
     "windows"
   ]
-  revision = "8883426083c04a2627e6e59d84d5f6fb63d16c91"
+  revision = "1b2967e3c290b7c545b3db0deeda16e9be4f98a2"
 
 [[projects]]
   name = "google.golang.org/appengine"
   packages = ["cloudsql"]
-  revision = "150dc57a1b433e64154302bdc40b6bb8aefa313a"
-  version = "v1.0.0"
+  revision = "b1f26356af11148e710935ed1ac8a7f5702c7612"
+  version = "v1.1.0"
 
 [[projects]]
   branch = "v3"
@@ -586,12 +592,12 @@
     ".",
     "internal/testconn"
   ]
-  revision = "0438881ea921050481169756e30ecf36ea24231c"
-  version = "v0.5.2"
+  revision = "751cf0d4eb77d69534dabeff0f3afb2a0eb8588c"
+  version = "v0.6.2"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "339ee46ca5fc4d23635ac82cec965122523754b4a342d0a2c557993c99a3b228"
+  inputs-digest = "206d1b1160f4bcdd2b4dc2b07abd4d3c5998280c6e25739df60e69ce757d9ff0"
   solver-name = "gps-cdcl"
   solver-version = 1

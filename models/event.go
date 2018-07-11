@@ -11,14 +11,14 @@ import (
 )
 
 type Event struct {
-	ID           uuid.UUID `json:"id" db:"id"`
-	CreatedAt    time.Time `json:"created_at" db:"created_at"`
-	UpdatedAt    time.Time `json:"updated_at" db:"updated_at"`
-	PrID         string    `json:"pr_id" db:"pr_id"`
-	EventType    string    `json:"event_type" db:"event_type"`
-	TimeCreated  string    `json:"time_created" db:"time_created"`
-	EventContent string    `json:"event_content" db:"event_content"`
-	SenderID     string    `json:"sender_id" db:"sender_id"`
+	ID            uuid.UUID `json:"id" db:"id"`
+	CreatedAt     time.Time `json:"created_at" db:"created_at"`
+	UpdatedAt     time.Time `json:"updated_at" db:"updated_at"`
+	PullrequestID string    `json:"pullrequest_id" db:"pullrequest_id"`
+	EventType     string    `json:"event_type" db:"event_type"`
+	TimeCreated   string    `json:"time_created" db:"time_created"`
+	EventContent  string    `json:"event_content" db:"event_content"`
+	SenderID      string    `json:"sender_id" db:"sender_id"`
 }
 
 // String is not required by pop and may be deleted
@@ -40,7 +40,7 @@ func (e Events) String() string {
 // This method is not required and may be deleted.
 func (e *Event) Validate(tx *pop.Connection) (*validate.Errors, error) {
 	return validate.Validate(
-		&validators.StringIsPresent{Field: e.PrID, Name: "PrID"},
+		&validators.StringIsPresent{Field: e.PullrequestID, Name: "PullrequestID"},
 		&validators.StringIsPresent{Field: e.EventType, Name: "EventType"},
 		&validators.StringIsPresent{Field: e.TimeCreated, Name: "TimeCreated"},
 		&validators.StringIsPresent{Field: e.EventContent, Name: "EventContent"},

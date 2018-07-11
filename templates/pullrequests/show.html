@@ -1,0 +1,55 @@
+<div class="page-header">
+  <h1>Pullrequest#Show</h1>
+</div>
+
+<ul class="list-unstyled list-inline">
+  <li><a href="<%= pullrequestsPath() %>" class="btn btn-info">Back to all Pullrequests</a></li>
+  <li><a href="<%= editPullrequestPath({ pullrequest_id: pullrequest.ID })%>" class="btn btn-warning">Edit</a></li>
+  <li><a href="<%= pullrequestPath({ pullrequest_id: pullrequest.ID })%>" data-method="DELETE" data-confirm="Are you sure?" class="btn btn-danger">Destroy</a>
+</ul>
+
+<p>
+  <strong>URL</strong>: <%= pullrequest.URL %>
+</p>
+<p>
+  <strong>HtmlUrl</strong>: <%= pullrequest.HtmlUrl %>
+</p>
+<p>
+  <strong>IssueUrl</strong>: <%= pullrequest.IssueUrl %>
+</p>
+<p>
+  <strong>Number</strong>: <%= pullrequest.Number %>
+</p>
+<p>
+  <strong>State</strong>: <%= pullrequest.State %>
+</p>
+<p>
+  <strong>Locked</strong>: <%= pullrequest.Locked %>
+</p>
+<p>
+  <strong>Title</strong>: <%= pullrequest.Title %>
+</p>
+<p>
+  <strong>Body</strong>: <%= pullrequest.Body %>
+</p>
+<p>
+  <strong>RequestCreatedAt</strong>: <%= pullrequest.RequestCreatedAt %>
+</p>
+<p>
+  <strong>RequestUpdatedAt</strong>: <%= pullrequest.RequestUpdatedAt %>
+</p>
+<p>
+  <strong>RequestMergedAt</strong>: <%= pullrequest.RequestMergedAt %>
+</p>
+<p>
+  <strong>RequestClosedAt</strong>: <%= pullrequest.RequestClosedAt %>
+</p>
+<p>
+  <strong>CommitsUrl</strong>: <%= pullrequest.CommitsUrl %>
+</p>
+<p>
+  <strong>StatusUrl</strong>: <%= pullrequest.StatusUrl %>
+</p>
+<p>
+  <strong>ExpireTime</strong>: <%= pullrequest.ExpireTime %>
+</p>

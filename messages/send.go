@@ -27,7 +27,7 @@ func SendToQueue(message string) error {
 	future := time.Now().UTC().Add(1 * time.Minute)
 	msg := servicebus.NewMessageFromString(message)
 	msg.SystemProperties = &servicebus.SystemProperties{
-		ScheduledEnqueuedTime: &future,
+		ScheduledEnqueueTime: &future,
 	}
 	log.Print(message)
 	q.Send(ctx, msg)

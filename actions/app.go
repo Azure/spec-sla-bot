@@ -2,7 +2,6 @@ package actions
 
 import (
 	"context"
-	"log"
 
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/buffalo/middleware"
@@ -12,14 +11,16 @@ import (
 
 	"github.com/Azure/buffalo-azure/sdk/eventgrid"
 	"github.com/Azure/spec-sla-bot/messages"
-	"github.com/gobuffalo/x/sessions"
-	"github.com/rs/cors"
+	"github.com/Azure/spec-sla-bot/models"
+	"github.com/gobuffalo/buffalo/middleware/i18n"
+	"github.com/gobuffalo/packr"
 )
 
 // ENV is used to help switch settings based on where the
 // application is being run. Default is "development".
 var ENV = envy.Get("GO_ENV", "development")
 var app *buffalo.App
+var T *i18n.Translator
 var commitID string
 
 // App is where all routes and middleware for buffalo
@@ -28,11 +29,7 @@ var commitID string
 func App() *buffalo.App {
 	if app == nil {
 		app = buffalo.New(buffalo.Options{
-			Env:          ENV,
-			SessionStore: sessions.Null{},
-			PreWares: []buffalo.PreWare{
-				cors.Default().Handler,
-			},
+			Env:         ENV,
 			SessionName: "_spec_sla_bot_session",
 		})
 		// Automatically redirect to SSL
@@ -41,33 +38,41 @@ func App() *buffalo.App {
 			SSLProxyHeaders: map[string]string{"X-Forwarded-Proto": "https"},
 		}))
 
-		// Set the request content type to JSON
-		app.Use(middleware.SetContentType("application/json"))
-
 		if ENV == "development" {
 			app.Use(middleware.ParameterLogger)
 		}
 
+		// Protect against CSRF attacks. https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)
+		// Remove to disable this.
+		//app.Use(csrf.New)
+
 		// Wraps each request in a transaction.
 		//  c.Value("tx").(*pop.PopTransaction)
 		// Remove to disable this.
-		//app.Use(middleware.PopTransaction(models.DB))
+		app.Use(middleware.PopTransaction(models.DB))
 
-		log.Print("Made it to home")
+		// Setup and use translations:
+		var err error
+		if T, err = i18n.New(packr.NewBox("../locales"), "en-US"); err != nil {
+			app.Stop(err)
+		}
+		app.Use(T.Middleware())
+
 		app.GET("/", HomeHandler)
 
-		//app.POST("/event/listen", EventListen)
-		log.Print("Made to event listen")
-		eventgrid.RegisterSubscriber(app, "/specsla", NewSpecslaSubscriber(&eventgrid.BaseSubscriber{}))
-		//app.POST("/receiver/message", ReceiverMessage)
+		//Subscribe to eventgrid
+		eventgrid.RegisterSubscriber(app, "/specgithub", NewSpecgithubSubscriber(&eventgrid.BaseSubscriber{}))
+
 		//Create AMQP Listener
 		messages.ReceiveFromQueue(context.Background())
+
 		app.Resource("/assignees", AssigneesResource{})
-		app.Resource("/prs", PRsResource{})
-		app.Resource("/p_r_assignees", PRAssigneesResource{})
 		app.Resource("/events", EventsResource{})
 		app.Resource("/emails", EmailsResource{})
 		app.Resource("/email_assignees", EmailAssigneesResource{})
+		app.Resource("/pullrequests", PullrequestsResource{})
+		app.Resource("/pullrequest_assignees", PullrequestAssigneesResource{})
+		app.ServeFiles("/", assetsBox) // serve files from the public directory
 	}
 
 	return app

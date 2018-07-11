@@ -1,0 +1,8 @@
+<div class="page-header">
+  <h1>Edit PullrequestAssignee</h1>
+</div>
+
+<%= form_for(pullrequestAssignee, {action: pullrequestAssigneePath({ pullrequest_assignee_id: pullrequestAssignee.ID }), method: "PUT"}) { %>
+  <%= partial("pullrequest_assignees/form.html") %>
+  <a href="<%= pullrequestAssigneePath({ pullrequest_assignee_id: pullrequestAssignee.ID }) %>" class="btn btn-warning" data-confirm="Are you sure?">Cancel</a>
+<% } %>

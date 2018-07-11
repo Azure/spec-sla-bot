@@ -7,7 +7,7 @@
 
 <table class="table table-striped">
   <thead>
-  <th>PrID</th>
+  <th>PullrequestID</th>
     <th>EventType</th>
     <th>TimeCreated</th>
     <th>EventContent</th>
@@ -17,7 +17,7 @@
   <tbody>
     <%= for (event) in events { %>
       <tr>
-      <td><%= event.PrID %></td>
+      <td><%= event.PullrequestID %></td>
         <td><%= event.EventType %></td>
         <td><%= event.TimeCreated %></td>
         <td><%= event.EventContent %></td>

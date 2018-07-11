@@ -1,8 +1,0 @@
-<div class="page-header">
-  <h1>New PRAssignee</h1>
-</div>
-
-<%= form_for(pRAssignee, {action: pRAssigneesPath(), method: "POST"}) { %>
-  <%= partial("pr_assignees/form.html") %>
-  <a href="<%= pRAssigneesPath() %>" class="btn btn-warning" data-confirm="Are you sure?">Cancel</a>
-<% } %>
