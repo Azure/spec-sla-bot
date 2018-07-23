@@ -10,11 +10,13 @@ import (
 )
 
 type PullrequestAssignee struct {
-	ID            uuid.UUID `json:"id" db:"id"`
-	CreatedAt     time.Time `json:"created_at" db:"created_at"`
-	UpdatedAt     time.Time `json:"updated_at" db:"updated_at"`
-	PullrequestID uuid.UUID `json:"pullrequest_id" db:"pullrequest_id"`
-	AssigneeID    uuid.UUID `json:"assignee_id" db:"assignee_id"`
+	ID            uuid.UUID   `json:"id" db:"id"`
+	CreatedAt     time.Time   `json:"created_at" db:"created_at"`
+	UpdatedAt     time.Time   `json:"updated_at" db:"updated_at"`
+	PullrequestID uuid.UUID   `json:"pullrequest_id" db:"pullrequest_id"`
+	AssigneeID    uuid.UUID   `json:"assignee_id" db:"assignee_id"`
+	Assignee      Assignee    `belongs_to:"assignees" db:"-"`
+	Pullrequest   Pullrequest `belongs_to:"pullrequests" db:"-"`
 }
 
 // String is not required by pop and may be deleted

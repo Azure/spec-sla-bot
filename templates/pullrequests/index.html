@@ -7,12 +7,13 @@
 
 <table class="table table-striped">
   <thead>
-  <th>URL</th>
+    <th>GitPRID</th>
+    <th>URL</th>
     <th>HtmlUrl</th>
     <th>IssueUrl</th>
     <th>Number</th>
     <th>State</th>
-    <th>Locked</th>
+    <th>ValidTime</th>
     <th>Title</th>
     <th>Body</th>
     <th>RequestCreatedAt</th>
@@ -27,12 +28,13 @@
   <tbody>
     <%= for (pullrequest) in pullrequests { %>
       <tr>
-      <td><%= pullrequest.URL %></td>
+      <td><%= pullrequest.GitPRID %></td>
+        <td><%= pullrequest.URL %></td>
         <td><%= pullrequest.HtmlUrl %></td>
         <td><%= pullrequest.IssueUrl %></td>
         <td><%= pullrequest.Number %></td>
         <td><%= pullrequest.State %></td>
-        <td><%= pullrequest.Locked %></td>
+        <td><%= pullrequest.ValidTime %></td>
         <td><%= pullrequest.Title %></td>
         <td><%= pullrequest.Body %></td>
         <td><%= pullrequest.RequestCreatedAt %></td>

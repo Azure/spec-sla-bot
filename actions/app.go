@@ -2,6 +2,7 @@ package actions
 
 import (
 	"context"
+	"os"
 
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/buffalo/middleware"
@@ -64,7 +65,7 @@ func App() *buffalo.App {
 		eventgrid.RegisterSubscriber(app, "/specgithub", NewSpecgithubSubscriber(&eventgrid.BaseSubscriber{}))
 
 		//Create AMQP Listener
-		messages.ReceiveFromQueue(context.Background())
+		messages.ReceiveFromQueue(context.Background(), os.Getenv("CUSTOMCONNSTR_SERVICEBUS_CONNECTION_STRING"))
 
 		app.Resource("/assignees", AssigneesResource{})
 		app.Resource("/events", EventsResource{})

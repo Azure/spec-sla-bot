@@ -10,12 +10,13 @@ import (
 	"github.com/gobuffalo/validate/validators"
 )
 
-type ValidTime struct {
+/*type ValidTime struct {
 	Time  time.Time
 	Valid bool
-}
+}*/
 
 type Pullrequest struct {
+	GitPRID          int64     `json:"git_prid" db:"git_prid"`
 	ID               uuid.UUID `json:"id" db:"id"`
 	CreatedAt        time.Time `json:"created_at" db:"created_at"`
 	UpdatedAt        time.Time `json:"updated_at" db:"updated_at"`
@@ -24,7 +25,7 @@ type Pullrequest struct {
 	IssueUrl         string    `json:"issue_url" db:"issue_url"`
 	Number           int       `json:"number" db:"number"`
 	State            string    `json:"state" db:"state"`
-	Locked           string    `json:"locked" db:"locked"`
+	ValidTime        bool      `json:"valid_time" db:"valid_time"`
 	Title            string    `json:"title" db:"title"`
 	Body             string    `json:"body" db:"body"`
 	RequestCreatedAt time.Time `json:"request_created_at" db:"request_created_at"`
@@ -33,7 +34,8 @@ type Pullrequest struct {
 	RequestClosedAt  time.Time `json:"request_closed_at" db:"request_closed_at"`
 	CommitsUrl       int       `json:"commits_url" db:"commits_url"`
 	StatusUrl        string    `json:"status_url" db:"status_url"`
-	ExpireTime       ValidTime `json:"expire_time" db:"expire_time"`
+	ExpireTime       time.Time `json:"expire_time" db:"expire_time"`
+	Assignees        Assignees `many_to_many:"pullrequest_assignees" db:"-"`
 }
 
 // String is not required by pop and may be deleted
@@ -60,7 +62,7 @@ func (p *Pullrequest) Validate(tx *pop.Connection) (*validate.Errors, error) {
 		&validators.StringIsPresent{Field: p.IssueUrl, Name: "IssueUrl"},
 		&validators.IntIsPresent{Field: p.Number, Name: "Number"},
 		&validators.StringIsPresent{Field: p.State, Name: "State"},
-		&validators.StringIsPresent{Field: p.Locked, Name: "Locked"},
+		//&validators.StringIsPresent{Field: p.ValidTime, Name: "ValidTime"},
 		&validators.StringIsPresent{Field: p.Title, Name: "Title"},
 		&validators.StringIsPresent{Field: p.Body, Name: "Body"},
 		//&validators.StringIsPresent{Field: p.RequestCreatedAt, Name: "RequestCreatedAt"},

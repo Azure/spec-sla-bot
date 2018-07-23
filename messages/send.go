@@ -9,7 +9,7 @@ import (
 	"github.com/Azure/azure-service-bus-go"
 )
 
-func SendToQueue(message string) error {
+func SendToQueue(message string, exprireTime time.Time) error {
 	connStr := os.Getenv("CUSTOMCONNSTR_SERVICEBUS_CONNECTION_STRING")
 	ns, err := servicebus.NewNamespace(servicebus.NamespaceWithConnectionString(connStr))
 	if err != nil {
@@ -24,10 +24,11 @@ func SendToQueue(message string) error {
 		return err
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	future := time.Now().UTC().Add(1 * time.Minute)
+	//future := time.Now().UTC().Add(1 * time.Minute)
 	msg := servicebus.NewMessageFromString(message)
 	msg.SystemProperties = &servicebus.SystemProperties{
-		ScheduledEnqueueTime: &future,
+		//ScheduledEnqueueTime: &future,
+		ScheduledEnqueueTime: &exprireTime,
 	}
 	log.Print(message)
 	q.Send(ctx, msg)
