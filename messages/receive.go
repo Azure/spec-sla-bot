@@ -4,10 +4,12 @@ import (
 	"context"
 	"errors"
 	"log"
+	"strconv"
 	"strings"
 	"time"
 
 	"github.com/Azure/azure-service-bus-go"
+	"github.com/Azure/spec-sla-bot/models"
 )
 
 type Message struct {
@@ -31,28 +33,20 @@ func ReceiveFromQueue(ctx context.Context, connStr string) (*servicebus.Listener
 		return nil, err
 	}
 	log.Print("got queue to receive")
-
-	log.Print("before receive")
 	listenHandle, err := q.Receive(ctx, func(ctx context.Context, message *servicebus.Message) servicebus.DispositionAction {
-		text := string(message.Data)
-		log.Print(text)
-
-		//The message is not invalid so parse
-		log.Print("MADE IT TO RECEIVE")
 		messageStruct, err := parseMessage(message.Data)
 		log.Print("parsed message")
 		if err != nil {
 			log.Println(err)
 			return message.DeadLetter(err)
 		}
-		//determine if the email should be sent
-		//if shouldSend(message) {
-		err = SendEmailToAssignee(messageStruct)
-		if err != nil {
-			log.Println(err)
-			return message.DeadLetter(err)
+		if ShouldSend(messageStruct) {
+			err = SendEmailToAssignee(messageStruct)
+			if err != nil {
+				log.Println(err)
+				return message.DeadLetter(err)
+			}
 		}
-		//}
 		return message.Complete()
 	})
 	if err != nil {
@@ -81,6 +75,7 @@ func getQueueToReceive(ns *servicebus.Namespace, queueName string) (*servicebus.
 	return q, err
 }
 
+//Redo this
 func parseMessage(data []byte) (*Message, error) {
 	str := string(data[:])
 	if len(str) != 0 {
@@ -89,7 +84,6 @@ func parseMessage(data []byte) (*Message, error) {
 			strSplit[i] = strings.TrimSpace(v)
 		}
 		return &Message{PRID: strSplit[1], PullRequestURL: strSplit[3], Assignee: strSplit[5]}, nil
-
 	}
 	return nil, errors.New("could not parse messages returned by service bus")
 }
@@ -98,6 +92,18 @@ func Split(r rune) bool {
 	return r == ','
 }
 
-//func shouldSend(messageStruct *Message) bool {
-
-//}
+func ShouldSend(messageStruct *Message) bool {
+	gitPRID, _ := strconv.Atoi(messageStruct.PRID)
+	prs := []models.Pullrequest{}
+	err := models.DB.Where("git_prid=?", int64(gitPRID)).All(&prs)
+	if err != nil || prs == nil {
+		log.Print("Could not make querey")
+		return false
+	}
+	for _, pr := range prs {
+		if pr.ValidTime && time.Now().Sub(pr.ExpireTime) >= 0 {
+			return true
+		}
+	}
+	return false
+}

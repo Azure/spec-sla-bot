@@ -38,8 +38,6 @@ func SendEmailToAssignee(info *Message) error {
 	m.SetHeader("To", "t-jaelli@microsoft.com")
 	m.SetHeader("Subject", "TEST")
 	m.SetBody("text/html", str)
-
-	//Send the email
 	d := gomail.NewDialer("smtp.office365.com", port, email, password)
 	if err = d.DialAndSend(m); err != nil {
 		return err

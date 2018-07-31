@@ -8,6 +8,7 @@ import (
 	"github.com/Azure/spec-sla-bot/messages"
 	"github.com/Azure/spec-sla-bot/models"
 	"github.com/gobuffalo/pop"
+	"github.com/gobuffalo/uuid"
 	"github.com/google/go-github/github"
 	"github.com/markbates/grift/grift"
 	"github.com/pkg/errors"
@@ -94,42 +95,35 @@ var _ = grift.Add("db:seed:with:connection", func(c *grift.Context) error {
 		log.Printf("list is not nil")
 		log.Printf("length: %d", len(pullRequestList))
 		for _, pullRequest := range pullRequestList {
-			//log.Printf(pullRequest.String())
-			pr := &models.Pullrequest{
-				GitPRID:          *pullRequest.ID,
-				URL:              *pullRequest.URL,
-				HtmlUrl:          *pullRequest.HTMLURL,
-				IssueUrl:         *pullRequest.IssueURL,
-				Number:           *pullRequest.Number,
-				State:            *pullRequest.State,
-				ValidTime:        false,
-				Title:            *pullRequest.Title,
-				Body:             *pullRequest.Title,
-				RequestCreatedAt: *pullRequest.CreatedAt,
-				RequestUpdatedAt: *pullRequest.UpdatedAt,
-				RequestMergedAt:  messages.NullCheckTime(pullRequest.MergedAt),
-				RequestClosedAt:  messages.NullCheckTime(pullRequest.ClosedAt),
-				CommitsUrl:       messages.NullCheckInt(pullRequest.Commits), // may need a null check to get the CommitsURL
-				StatusUrl:        *pullRequest.StatusesURL,                   // consider changing name of column to match statuses
-				ExpireTime:       time.Time{},
-			}
-			log.Printf("Made it here")
-			log.Printf(pr.String())
-			err = db.Create(pr)
+			id, err := uuid.NewV1()
 			if err != nil {
-				log.Printf("Could not create the pr in the database")
 				return err
 			}
-			if pullRequest.Assignee != nil {
-				a := &models.Assignee{
-					Login:   *pullRequest.Assignee.Login,
-					Type:    *pullRequest.Assignee.Type,
-					HtmlUrl: *pullRequest.Assignee.HTMLURL,
-				}
-				err := db.Create(a)
-				if err != nil {
-					log.Printf("Could not create the assignee in the database")
-					return err
+			q := db.RawQuery(`INSERT INTO pullrequests (id, created_at, updated_at, git_prid, url, html_url,
+				issue_url, number, state,valid_time, title, body, request_created_at, request_updated_at,
+				request_merged_at, request_closed_at, commits_url, status_url, expire_time)
+				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) 
+				ON CONFLICT (git_prid) DO NOTHING`, id, time.Now(), time.Now(), *pullRequest.ID, *pullRequest.URL,
+				*pullRequest.HTMLURL, *pullRequest.IssueURL, *pullRequest.Number, *pullRequest.State, false,
+				*pullRequest.Title, "", messages.NullCheckTime(pullRequest.CreatedAt),
+				messages.NullCheckTime(pullRequest.UpdatedAt), messages.NullCheckTime(pullRequest.MergedAt),
+				messages.NullCheckTime(pullRequest.ClosedAt), messages.NullCheckInt(pullRequest.Commits),
+				*pullRequest.StatusesURL, time.Time{})
+			err = q.Exec()
+			if err != nil {
+				log.Print(err)
+				return errors.New("Could not complete upsert")
+			}
+			if pullRequest.Assignee != nil && pullRequest.Assignees != nil {
+				for _, assignee := range pullRequest.Assignees {
+					q := db.RawQuery(`INSERT INTO assignees (id, created_at, updated_at, login, type, html_url)
+					VALUES (?, ?, ?, ?, ?, ?) ON CONFLICT (login) DO NOTHING`, id, time.Now(), time.Now(),
+						*assignee.Login, *assignee.Type, *assignee.HTMLURL)
+					err = q.Exec()
+					if err != nil {
+						log.Print(err)
+						return errors.New("Could not complete upsert")
+					}
 				}
 			}
 		}

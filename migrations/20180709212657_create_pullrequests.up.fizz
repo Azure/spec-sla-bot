@@ -1,9 +1,9 @@
 create_table("pullrequests", func(t) {
 	t.Column("id", "uuid", {"primary": true})
-	t.Column("git_prid", "int", {"unique": true})
+	t.Column("git_prid", "int", {})
 	t.Column("url", "string", {})
 	t.Column("html_url", "string", {})
-	t.Column("issue_url", "string", {"unique": true})
+	t.Column("issue_url", "string", {})
 	t.Column("number", "int", {})
 	t.Column("state", "string", {})
 	t.Column("valid_time", "bool", {})

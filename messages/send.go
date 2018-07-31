@@ -30,6 +30,7 @@ func SendToQueue(message string, exprireTime time.Time) error {
 		//ScheduledEnqueueTime: &future,
 		ScheduledEnqueueTime: &exprireTime,
 	}
+	log.Printf("ABOUT TO SEND MESSAGE")
 	log.Print(message)
 	q.Send(ctx, msg)
 	cancel()
