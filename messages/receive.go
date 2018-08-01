@@ -10,6 +10,7 @@ import (
 
 	"github.com/Azure/azure-service-bus-go"
 	"github.com/Azure/spec-sla-bot/models"
+	"github.com/gobuffalo/uuid"
 )
 
 type Message struct {
@@ -44,6 +45,11 @@ func ReceiveFromQueue(ctx context.Context, connStr string) (*servicebus.Listener
 			err = SendEmailToAssignee(ctx, messageStruct)
 			if err != nil {
 				log.Println(err)
+				return message.DeadLetter(err)
+			}
+			err = AddEmailToDB(messageStruct)
+			if err != nil {
+				log.Println("Unable to add the emails to the database")
 				return message.DeadLetter(err)
 			}
 		}
@@ -107,4 +113,22 @@ func ShouldSend(messageStruct *Message) bool {
 		}
 	}
 	return false
+}
+
+func AddEmailToDB(messageStruct *Message) error {
+	gitPRID, _ := strconv.Atoi(messageStruct.PRID)
+	id, err := uuid.NewV1()
+	if err != nil {
+		return err
+	}
+	//Do I need to populate assignee?
+	q := models.DB.RawQuery(`INSERT INTO emails (id, created_at, updated_at, pullrequest_id, time_sent)
+			VALUES (?, ?, ?, ?, ?)`,
+		id, time.Now(), time.Now(), gitPRID, time.Now())
+	err = q.Exec()
+	if err != nil {
+		log.Print(err)
+		return errors.New("Could not complete insert to add email to database")
+	}
+	return nil
 }

@@ -60,10 +60,11 @@ func CheckAcknowledgementLabel(event github.LabelEvent) {
 func updateTime() time.Time {
 	currentTime := time.Now().Local()
 	//Adjusted time for now for testing purposes
-	/*if strings.EqualFold(currentTime.Weekday().String(), "Friday") {
-		currentExpireTime := currentTime.Add(time.Hour * time.Duration(48))
+	//if the current weekday is Friday
+	if currentTime.Weekday() == 5 {
+		currentExpireTime := currentTime.Add(time.Hour * time.Duration(72))
 		return currentExpireTime
-	}*/
+	}
 	currentExpireTime := currentTime.Add(time.Minute * time.Duration(5))
 	return currentExpireTime
 }
@@ -71,32 +72,25 @@ func updateTime() time.Time {
 func checkCommented(event github.IssueCommentEvent, tx *pop.Connection) bool {
 	//check that the issue is not nil and that the issue id is a pr id in the db
 	if event.Issue != nil && event.Issue.Assignee != nil && event.Sender != nil && event.Sender.Login != nil {
+		expireTime := updateTime()
+		validTime := true
 		//Check if the right person assignee commented
-		if strings.EqualFold(*event.Issue.Assignee.Login, *event.Sender.Login) {
-			/*
-				id, err := uuid.NewV1()
-				if err != nil {
-					return false
-				}
-				q := tx.RawQuery(`INSERT INTO pullrequests (id, created_at, updated_at, git_prid, url, html_url, issue_url, number, state,
-				valid_time, title, body, request_created_at, request_updated_at, request_merged_at,
-				request_closed_at, commits_url, status_url, expire_time)
-				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-				ON CONFLICT (git_prid) DO UPDATE SET valid_time=?, expire_time=?`,
-					id, time.Now(), time.Now(), *event.Issue.ID, *event.Issue.URL,
-					*event.Issue.HTMLURL, *event.Issue.IssueURL, *event.PullRequest.Number,
-					*event.PullRequest.State, valid_time, *event.PullRequest.Title, "",
-					NullCheckTime(event.PullRequest.CreatedAt), NullCheckTime(event.PullRequest.UpdatedAt),
-					NullCheckTime(event.PullRequest.MergedAt), NullCheckTime(event.PullRequest.ClosedAt),
-					NullCheckInt(event.PullRequest.Commits), *event.PullRequest.StatusesURL, expire_time, valid_time, expire_time)
-				err = q.Exec()
-				if err != nil {
-					log.Print(err)
-					log.Print("Unable to update event number %d", *event.Number)
-					return errors.New("Could not complete upsert")
-				}
-				return true
-			*/
+		prs := []models.Pullrequest{}
+		err := tx.RawQuery(`SELECT * FROM pullrequests WHERE issue_url=?`, event.Issue.URL).All(&prs)
+		if err != nil || prs == nil {
+			log.Print("Could not make query")
+			return false
+		}
+		//Might not be the best
+		issueURL := prs[0].IssueUrl
+		if strings.EqualFold(*event.Issue.Assignee.Login, *event.Sender.Login) && strings.EqualFold(*event.Issue.URL, issueURL) {
+			q := tx.RawQuery(`UPDATE pullrequests SET valid_time=?, expire_time=? WHERE issue_url=?`, validTime, expireTime, issueURL)
+			err := q.Exec()
+			if err != nil {
+				log.Print(err)
+				log.Printf("Unable to update event number %d", *event.Issue.ID)
+				return false
+			}
 			return true
 		}
 

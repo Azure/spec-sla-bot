@@ -1,5 +1,5 @@
 create_table("emails", func(t) {
 	t.Column("id", "uuid", {"primary": true})
-	t.Column("pullrequest_id", "uuid", {})
-	t.Column("time_sent", "string", {})
+	t.Column("pullrequest_id", "int", {})
+	t.Column("time_sent", "timestamp", {})
 })
