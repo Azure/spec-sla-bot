@@ -1,0 +1,8 @@
+<div class="page-header">
+  <h1>New EmailAssignee</h1>
+</div>
+
+<%= form_for(emailAssignee, {action: emailAssigneesPath(), method: "POST"}) { %>
+  <%= partial("email_assignees/form.html") %>
+  <a href="<%= emailAssigneesPath() %>" class="btn btn-warning" data-confirm="Are you sure?">Cancel</a>
+<% } %>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Buffalo - Spec Sla Tool</title>
+    <%= stylesheetTag("application.css") %>
+    <link rel="icon" href="<%= assetPath("images/favicon.ico") %>">
+  </head>
+  <body>
+
+    <div class="container">
+      <%= partial("flash.html") %>
+      <%= yield %>
+    </div>
+
+    <%= javascriptTag("application.js") %>
+  </body>
+</html>

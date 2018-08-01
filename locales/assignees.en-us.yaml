@@ -1,0 +1,6 @@
+- id: "assignee.created.success"
+  translation: "Assignee was successfully created."
+- id: "assignee.updated.success"
+  translation: "Assignee was successfully updated."
+- id: "assignee.destroyed.success"
+  translation: "Assignee was successfully destroyed."

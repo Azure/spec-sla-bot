@@ -1,0 +1,8 @@
+create_table("assignees", func(t) {
+	t.Column("id", "uuid", {"primary": true})
+	t.Column("login", "string", {})
+	t.Column("type", "string", {})
+	t.Column("html_url", "string", {})
+})
+
+add_index("assignees", "login", {"unique":true})

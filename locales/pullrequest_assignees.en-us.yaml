@@ -1,0 +1,6 @@
+- id: "pullrequest_assignee.created.success"
+  translation: "PullrequestAssignee was successfully created."
+- id: "pullrequest_assignee.updated.success"
+  translation: "PullrequestAssignee was successfully updated."
+- id: "pullrequest_assignee.destroyed.success"
+  translation: "PullrequestAssignee was successfully destroyed."

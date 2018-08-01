@@ -1,0 +1,8 @@
+<div class="page-header">
+  <h1>New Pullrequest</h1>
+</div>
+
+<%= form_for(pullrequest, {action: pullrequestsPath(), method: "POST"}) { %>
+  <%= partial("pullrequests/form.html") %>
+  <a href="<%= pullrequestsPath() %>" class="btn btn-warning" data-confirm="Are you sure?">Cancel</a>
+<% } %>

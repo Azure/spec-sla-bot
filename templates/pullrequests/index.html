@@ -1,0 +1,61 @@
+<div class="page-header">
+  <h1>Pullrequests</h1>
+</div>
+<ul class="list-unstyled list-inline">
+  <li><a href="<%= newPullrequestsPath() %>" class="btn btn-primary">Create New Pullrequest</a></li>
+</ul>
+
+<table class="table table-striped">
+  <thead>
+    <th>GitPRID</th>
+    <th>URL</th>
+    <th>HtmlUrl</th>
+    <th>IssueUrl</th>
+    <th>Number</th>
+    <th>State</th>
+    <th>ValidTime</th>
+    <th>Title</th>
+    <th>Body</th>
+    <th>RequestCreatedAt</th>
+    <th>RequestUpdatedAt</th>
+    <th>RequestMergedAt</th>
+    <th>RequestClosedAt</th>
+    <th>CommitsUrl</th>
+    <th>StatusUrl</th>
+    <th>ExpireTime</th>
+    <th>&nbsp;</th>
+  </thead>
+  <tbody>
+    <%= for (pullrequest) in pullrequests { %>
+      <tr>
+      <td><%= pullrequest.GitPRID %></td>
+        <td><%= pullrequest.URL %></td>
+        <td><%= pullrequest.HtmlUrl %></td>
+        <td><%= pullrequest.IssueUrl %></td>
+        <td><%= pullrequest.Number %></td>
+        <td><%= pullrequest.State %></td>
+        <td><%= pullrequest.ValidTime %></td>
+        <td><%= pullrequest.Title %></td>
+        <td><%= pullrequest.Body %></td>
+        <td><%= pullrequest.RequestCreatedAt %></td>
+        <td><%= pullrequest.RequestUpdatedAt %></td>
+        <td><%= pullrequest.RequestMergedAt %></td>
+        <td><%= pullrequest.RequestClosedAt %></td>
+        <td><%= pullrequest.CommitsUrl %></td>
+        <td><%= pullrequest.StatusUrl %></td>
+        <td><%= pullrequest.ExpireTime %></td>
+        <td>
+          <div class="pull-right">
+            <a href="<%= pullrequestPath({ pullrequest_id: pullrequest.ID }) %>" class="btn btn-info">View</a>
+            <a href="<%= editPullrequestPath({ pullrequest_id: pullrequest.ID }) %>" class="btn btn-warning">Edit</a>
+            <a href="<%= pullrequestPath({ pullrequest_id: pullrequest.ID }) %>" data-method="DELETE" data-confirm="Are you sure?" class="btn btn-danger">Destroy</a>
+          </div>
+        </td>
+      </tr>
+    <% } %>
+  </tbody>
+</table>
+
+<div class="text-center">
+  <%= paginator(pagination) %>
+</div>

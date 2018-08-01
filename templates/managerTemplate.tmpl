@@ -1,0 +1,26 @@
+<style>
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+    text-align: left;
+}
+</style>
+    You have an outstanding PR that has not been acknowledged in past 24 hours. Please acknowlege the PR to abide by the SLA.<br /><br /> Kindly, <br />Jackie (your favorite intern)<br>
+        <table style="width:100%">
+        <caption><br />Outstanding Pull Requests</caption>
+        <tr>
+            <th>Pull Request Number</th>
+            <th>Assignee</th>
+        </tr>
+            <tr>
+                <td><a href={{.PullRequestURL}}>{{ .PRID }}</a></td>
+                {{if .Assignee -}}
+                    <td>{{ .Assignee }}</td>
+                {{- else}}
+                    <td>NONE</td>
+                {{- end}}
+            </tr>
+        </table>

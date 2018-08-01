@@ -1,0 +1,39 @@
+<div class="page-header">
+  <h1>Events</h1>
+</div>
+<ul class="list-unstyled list-inline">
+  <li><a href="<%= newEventsPath() %>" class="btn btn-primary">Create New Event</a></li>
+</ul>
+
+<table class="table table-striped">
+  <thead>
+  <th>PullrequestID</th>
+    <th>EventType</th>
+    <th>TimeCreated</th>
+    <th>EventContent</th>
+    <th>SenderID</th>
+    <th>&nbsp;</th>
+  </thead>
+  <tbody>
+    <%= for (event) in events { %>
+      <tr>
+      <td><%= event.PullrequestID %></td>
+        <td><%= event.EventType %></td>
+        <td><%= event.TimeCreated %></td>
+        <td><%= event.EventContent %></td>
+        <td><%= event.SenderID %></td>
+        <td>
+          <div class="pull-right">
+            <a href="<%= eventPath({ event_id: event.ID }) %>" class="btn btn-info">View</a>
+            <a href="<%= editEventPath({ event_id: event.ID }) %>" class="btn btn-warning">Edit</a>
+            <a href="<%= eventPath({ event_id: event.ID }) %>" data-method="DELETE" data-confirm="Are you sure?" class="btn btn-danger">Destroy</a>
+          </div>
+        </td>
+      </tr>
+    <% } %>
+  </tbody>
+</table>
+
+<div class="text-center">
+  <%= paginator(pagination) %>
+</div>

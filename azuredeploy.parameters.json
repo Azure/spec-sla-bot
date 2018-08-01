@@ -1,0 +1,1 @@
+{"$schema":"http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#","contentVersion":"1.0.0.0","parameters":{"database":{"value":"postgresql"},"databaseAdministratorLogin":{"value":"buffaloAdmin"},"databaseName":{"value":"spec_sla_bot_development"},"imageName":{"value":"jaelli/spec-sla-bot:latest"},"name":{"value":"specslatool"}}}

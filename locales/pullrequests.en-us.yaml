@@ -1,0 +1,6 @@
+- id: "pullrequest.created.success"
+  translation: "Pullrequest was successfully created."
+- id: "pullrequest.updated.success"
+  translation: "Pullrequest was successfully updated."
+- id: "pullrequest.destroyed.success"
+  translation: "Pullrequest was successfully destroyed."

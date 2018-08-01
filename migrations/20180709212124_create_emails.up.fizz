@@ -1,0 +1,5 @@
+create_table("emails", func(t) {
+	t.Column("id", "uuid", {"primary": true})
+	t.Column("pullrequest_id", "uuid", {})
+	t.Column("time_sent", "string", {})
+})

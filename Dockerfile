@@ -5,8 +5,12 @@ FROM gobuffalo/buffalo:v0.11.1 as builder
 RUN mkdir -p $GOPATH/src/github.com/Azure/spec-sla-bot
 WORKDIR $GOPATH/src/github.com/Azure/spec-sla-bot
 
+# this will cache the npm install step, unless package.json changes
+#ADD package.json .
+#ADD yarn.lock .
+#RUN yarn install --no-progress
 ADD . .
-RUN dep ensure
+RUN go get $(go list ./... | grep -v /vendor/)
 RUN buffalo build --static --ldflags "-X github.com/Azure/spec-sla-bot/actions.commitID=$(git rev-parse HEAD)" -o /bin/app
 
 FROM alpine
@@ -16,10 +20,10 @@ RUN apk add --no-cache ca-certificates
 WORKDIR /bin/
 
 COPY --from=builder /bin/app .
-COPY --from=builder /go/src/github.com/Azure/spec-sla-bot/templates templates/
 
 # Comment out to run the binary in "production" mode:
 # ENV GO_ENV=production
+
 # Bind the app to 0.0.0.0 so it can be seen from outside the container
 ENV ADDR=0.0.0.0
 

@@ -1,0 +1,7 @@
+create_table("pullrequest_assignees", func(t) {
+	t.Column("id", "uuid", {"primary": true})
+	t.Column("pullrequest_id", "uuid", {})
+	t.Column("assignee_id", "uuid", {})
+	t.ForeignKey("pullrequest_id", {"pullrequests":["id"]}, {})
+	t.ForeignKey("assignee_id", {"assignees":["id"]}, {})
+})

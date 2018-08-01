@@ -1,0 +1,6 @@
+- id: "email_assignee.created.success"
+  translation: "EmailAssignee was successfully created."
+- id: "email_assignee.updated.success"
+  translation: "EmailAssignee was successfully updated."
+- id: "email_assignee.destroyed.success"
+  translation: "EmailAssignee was successfully destroyed."

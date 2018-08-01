@@ -1,0 +1,8 @@
+create_table("events", func(t) {
+	t.Column("id", "uuid", {"primary": true})
+	t.Column("pullrequest_id", "string", {})
+	t.Column("event_type", "string", {})
+	t.Column("time_created", "string", {})
+	t.Column("event_content", "string", {})
+	t.Column("sender_id", "string", {})
+})

@@ -1,0 +1,16 @@
+<div class="page-header">
+  <h1>EmailAssignee#Show</h1>
+</div>
+
+<ul class="list-unstyled list-inline">
+  <li><a href="<%= emailAssigneesPath() %>" class="btn btn-info">Back to all EmailAssignees</a></li>
+  <li><a href="<%= editEmailAssigneePath({ email_assignee_id: emailAssignee.ID })%>" class="btn btn-warning">Edit</a></li>
+  <li><a href="<%= emailAssigneePath({ email_assignee_id: emailAssignee.ID })%>" data-method="DELETE" data-confirm="Are you sure?" class="btn btn-danger">Destroy</a>
+</ul>
+
+<p>
+  <strong>EmailID</strong>: <%= emailAssignee.EmailID %>
+</p>
+<p>
+  <strong>AssigneeID</strong>: <%= emailAssignee.AssigneeID %>
+</p>
