@@ -58,10 +58,10 @@ func CheckAcknowledgementLabel(event github.LabelEvent) {
 }
 
 func updateTime() time.Time {
-	currentTime := time.Now().Local()
+	currentTime := time.Now()
 	//Adjusted time for now for testing purposes
 	//if the current weekday is Friday
-	if currentTime.Weekday() == 5 {
+	if int(currentTime.Weekday()) == 5 {
 		currentExpireTime := currentTime.Add(time.Hour * time.Duration(72))
 		return currentExpireTime
 	}
