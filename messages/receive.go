@@ -41,6 +41,7 @@ func ReceiveFromQueue(ctx context.Context, connStr string) (*servicebus.Listener
 			log.Println(err)
 			return message.DeadLetter(err)
 		}
+		log.Print(messageStruct.Assignee)
 		if ShouldSend(messageStruct) {
 			err = SendEmailToAssignee(ctx, messageStruct)
 			if err != nil {
@@ -111,7 +112,10 @@ func ShouldSend(messageStruct *Message) bool {
 			log.Print("returning true, should send message")
 			return true
 		}
+		log.Print(time.Now())
+		log.Print(pr.ExpireTime)
 	}
+	log.Print("pr was nil")
 	return false
 }
 
