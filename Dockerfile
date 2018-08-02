@@ -10,7 +10,7 @@ WORKDIR $GOPATH/src/github.com/Azure/spec-sla-bot
 #ADD yarn.lock .
 #RUN yarn install --no-progress
 ADD . .
-RUN go get $(go list ./... | grep -v /vendor/)
+RUN dep ensure
 RUN buffalo build --static --ldflags "-X github.com/Azure/spec-sla-bot/actions.commitID=$(git rev-parse HEAD)" -o /bin/app
 
 FROM alpine

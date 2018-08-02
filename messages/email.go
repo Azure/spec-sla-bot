@@ -20,8 +20,7 @@ func SendEmailToAssignee(ctx context.Context, info *Message) error {
 		fmt.Print(err)
 		return err
 	}
-	str := string(b) // convert content to a 'string'
-	//fmt.Print(str)
+	str := string(b)
 	m := gomail.NewMessage()
 	//Get connection string from azure
 	emailUrl := os.Getenv("CUSTOMCONNSTR_EMAIL_URL")
@@ -34,9 +33,7 @@ func SendEmailToAssignee(ctx context.Context, info *Message) error {
 	}
 
 	port, _ := strconv.Atoi(parsed.Port())
-	//user := parsed.User.Username()
 	password, _ := parsed.User.Password()
-	//email := user + "@" + parsed.Hostname()
 
 	queryString := fmt.Sprintf("SELECT EmailLogin FROM [User] WHERE GitHubUser = '%s';", info.Assignee)
 	fmt.Println("email selection query: ", queryString)

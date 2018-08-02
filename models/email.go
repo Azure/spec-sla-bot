@@ -14,7 +14,7 @@ type Email struct {
 	ID            uuid.UUID `json:"id" db:"id"`
 	CreatedAt     time.Time `json:"created_at" db:"created_at"`
 	UpdatedAt     time.Time `json:"updated_at" db:"updated_at"`
-	PullrequestID uuid.UUID `json:"pullrequest_id" db:"pullrequest_id"`
+	PullrequestID int       `json:"pullrequest_id" db:"pullrequest_id"`
 	TimeSent      string    `json:"time_sent" db:"time_sent"`
 	Assignees     *Assignee `many_to_many:"email_assignee"`
 }
