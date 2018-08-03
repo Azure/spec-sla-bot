@@ -108,6 +108,7 @@ func ShouldSend(messageStruct *Message) bool {
 		return false
 	}
 	for _, pr := range prs {
+		log.Print(time.Now().Sub(pr.ExpireTime))
 		if pr.ValidTime && time.Now().Sub(pr.ExpireTime) >= 0 {
 			log.Print("returning true, should send message")
 			return true
