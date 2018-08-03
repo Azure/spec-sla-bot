@@ -38,10 +38,7 @@ func CheckAcknowledgementComment(event github.IssueCommentEvent) {
 	tx, err := pop.Connect("developement")
 	if err != nil {
 		log.Printf("Could not connect to the developement database")
-		return
-	}
-	if event.Issue != nil && event.Issue.IsPullRequest() && checkCommented(event, tx) {
-
+	} else if event.Issue != nil && event.Issue.IsPullRequest() && checkCommented(event, tx) {
 		message := fmt.Sprintf("PR id, %d, URL, %s, Assignee, %s", *event.Issue.ID, *event.Issue.URL, *event.Issue.Assignee.Login)
 		log.Print(message)
 		err = SendToQueue(message, currentExpireTime)
@@ -49,7 +46,6 @@ func CheckAcknowledgementComment(event github.IssueCommentEvent) {
 		if err != nil {
 			log.Printf("Message for event %d not delivered", *event.Issue.ID)
 		}
-		return
 	}
 }
 
