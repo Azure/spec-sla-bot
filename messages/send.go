@@ -9,7 +9,7 @@ import (
 	"github.com/Azure/azure-service-bus-go"
 )
 
-func SendToQueue(message string, exprireTime time.Time) error {
+func SendToQueue(message string, postTime time.Time) error {
 	connStr := os.Getenv("CUSTOMCONNSTR_SERVICEBUS_CONNECTION_STRING")
 	ns, err := servicebus.NewNamespace(servicebus.NamespaceWithConnectionString(connStr))
 	if err != nil {
@@ -23,12 +23,11 @@ func SendToQueue(message string, exprireTime time.Time) error {
 		log.Printf("failed to build a new queue named %q\n", queueName)
 		return err
 	}
-	exprireTime = exprireTime.Add(time.Minute * time.Duration(10))
-	log.Print(exprireTime)
+	postTime = postTime.Add(time.Minute * time.Duration(10))
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	msg := servicebus.NewMessageFromString(message)
 	msg.SystemProperties = &servicebus.SystemProperties{
-		ScheduledEnqueueTime: &exprireTime,
+		ScheduledEnqueueTime: &postTime,
 	}
 	log.Printf("ABOUT TO SEND MESSAGE")
 	log.Print(message)
