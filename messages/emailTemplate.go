@@ -14,9 +14,8 @@ func CreatePrimaryTemplate(info *Message) {
 	fmap := template.FuncMap{
 		"FormatNumber":   FormatNumber,
 		"FormatAssignee": FormatAssignee}
-	t := template.Must(template.New("primaryTemplate.tmpl").Funcs(fmap).ParseFiles("./templates/primaryTemplate.tmpl"))
+	t := template.Must(template.New("primaryTemplate.tmpl").Funcs(fmap).ParseFiles("../templates/primaryTemplate.tmpl"))
 	handle, err := os.Create("finalPrimaryTemplate.html")
-	//fred, err := ioutil.TempFile()
 	err = t.Execute(handle, *info)
 	if err != nil {
 		panic(err)
