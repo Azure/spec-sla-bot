@@ -23,7 +23,8 @@ func SendToQueue(message string, exprireTime time.Time) error {
 		log.Printf("failed to build a new queue named %q\n", queueName)
 		return err
 	}
-	exprireTime = exprireTime.Add(time.Minute * time.Duration(5))
+	exprireTime = exprireTime.Add(time.Minute * time.Duration(10))
+	log.Print(exprireTime)
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	msg := servicebus.NewMessageFromString(message)
 	msg.SystemProperties = &servicebus.SystemProperties{
