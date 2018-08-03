@@ -62,10 +62,10 @@ func updateTime() time.Time {
 	//Adjusted time for now for testing purposes
 	//if the current weekday is Friday
 	if int(currentTime.Weekday()) == 5 {
-		currentExpireTime := currentTime.Add(time.Hour * time.Duration(72))
+		currentExpireTime := currentTime.Add(time.Minute * time.Duration(1))
 		return currentExpireTime
 	}
-	currentExpireTime := currentTime.Add(time.Minute * time.Duration(5))
+	currentExpireTime := currentTime.Add(time.Minute * time.Duration(1))
 	return currentExpireTime
 }
 
