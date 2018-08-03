@@ -1,7 +1,6 @@
 package messages
 
 import (
-	"errors"
 	"fmt"
 	"log"
 	"strings"
@@ -20,7 +19,7 @@ func CheckAcknowledgement(event github.PullRequestEvent) {
 	if checkClosed(event, models.DB) || checkUnassigned(event, models.DB) || (event.PullRequest.Assignee == nil && checkOpened(event, models.DB)) {
 		err := UpsertPullRequestEntry(event, models.DB, false, time.Time{})
 		if err != nil {
-			log.Printf("Unable to update event number %d", *event.Number)
+			log.Printf("Unable to update event number %d in CheckAcknowledged", *event.Number)
 		}
 	} else if event.PullRequest.Assignee != nil && (checkAssigned(event, models.DB) || checkReviewed(event, models.DB) || checkEdited(event, models.DB) || checkLabeled(event, models.DB) || checkOpened(event, models.DB)) {
 		message := fmt.Sprintf("PR id, %d, URL, %s, Assignee, %s", *event.PullRequest.ID, *event.PullRequest.HTMLURL, *event.PullRequest.Assignee.Login)
@@ -84,7 +83,7 @@ func checkCommented(event github.IssueCommentEvent, tx *pop.Connection) bool {
 			err := q.Exec()
 			if err != nil {
 				log.Print(err)
-				log.Printf("Unable to update event number %d", *event.Issue.ID)
+				log.Printf("Unable to update event number %d in CheckCommented", *event.Issue.ID)
 				return false
 			}
 			return true
@@ -113,7 +112,7 @@ func checkAssigned(event github.PullRequestEvent, tx *pop.Connection) bool {
 				VALUES (?, ?, ?) ON CONFLICT CONSTRAINT (login) DO UPDATE SET html_url = ?`,
 					assignee.Login, assignee.Type, assignee.HTMLURL, assignee.HTMLURL)
 				if err != nil {
-					log.Printf("Unable to update event number %d", *event.Number)
+					log.Printf("Unable to update event number %d in checkAssigned", *event.Number)
 					return false
 				}
 			}
@@ -132,7 +131,7 @@ func checkUnassigned(event github.PullRequestEvent, tx *pop.Connection) bool {
 		if event.PullRequest != nil && event.Number != nil {
 			err := UpsertPullRequestEntry(event, tx, validTime, expireTime)
 			if err != nil {
-				log.Printf("Unable to update event number %d", *event.Number)
+				log.Printf("Unable to update event number %d in checkUnassigned", *event.Number)
 				return false
 			}
 		}
@@ -150,7 +149,7 @@ func checkReviewed(event github.PullRequestEvent, tx *pop.Connection) bool {
 				if event.PullRequest != nil && event.Number != nil {
 					err := UpsertPullRequestEntry(event, tx, validTime, expireTime)
 					if err != nil {
-						log.Printf("Unable to update event number %d", *event.Number)
+						log.Printf("Unable to update event number %d in checkReviewed", *event.Number)
 						return false
 					}
 				}
@@ -171,7 +170,7 @@ func checkLabeled(event github.PullRequestEvent, tx *pop.Connection) bool {
 				if event.PullRequest != nil && event.Number != nil {
 					err := UpsertPullRequestEntry(event, tx, validTime, expireTime)
 					if err != nil {
-						log.Printf("Unable to update event number %d", *event.Number)
+						log.Printf("Unable to update event number %d in checkLabeled", *event.Number)
 						return false
 					}
 				}
@@ -189,7 +188,7 @@ func checkClosed(event github.PullRequestEvent, tx *pop.Connection) bool {
 		if event.PullRequest != nil && event.Number != nil {
 			err := UpsertPullRequestEntry(event, tx, validTime, expireTime)
 			if err != nil {
-				log.Printf("Unable to update event number %d", *event.Number)
+				log.Printf("Unable to update event number %d in checkClosed", *event.Number)
 				return false
 			}
 		}
@@ -207,7 +206,7 @@ func checkOpened(event github.PullRequestEvent, tx *pop.Connection) bool {
 		}
 		err := UpsertPullRequestEntry(event, tx, validTime, expireTime)
 		if err != nil {
-			log.Printf("Unable to update event number %d", *event.Number)
+			log.Printf("Unable to update event number %d in checkOpened", *event.Number)
 			return false
 		}
 		return true
@@ -227,12 +226,11 @@ func checkEdited(event github.PullRequestEvent, tx *pop.Connection) bool {
 				err := UpsertPullRequestEntry(event, tx, true, expireTime)
 				log.Print("updated event")
 				if err != nil {
-					log.Printf("Unable to update event number %d", *event.Number)
+					log.Printf("Unable to update event number %d in checkEdited", *event.Number)
 					return false
 				}
 			}
 			return true
-			//}
 		}
 	}
 	return false
@@ -256,9 +254,8 @@ func UpsertPullRequestEntry(event github.PullRequestEvent, tx *pop.Connection, v
 		NullCheckInt(event.PullRequest.Commits), *event.PullRequest.StatusesURL, expire_time, valid_time, expire_time)
 	err = q.Exec()
 	if err != nil {
-		log.Print(err)
-		log.Printf("Unable to update event number %d", *event.Number)
-		return errors.New("Could not complete upsert")
+		log.Printf("Unable to update event number %d in Upsert", *event.Number)
+		return fmt.Errorf("Could not complete upsert: %v", err)
 	}
 	return nil
 }
