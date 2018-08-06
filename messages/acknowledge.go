@@ -108,10 +108,16 @@ func checkAssigned(event github.PullRequestEvent, tx *pop.Connection) bool {
 		if event.PullRequest != nil && event.PullRequest.Assignees != nil {
 			assignees := event.PullRequest.Assignees
 			for _, assignee := range assignees {
-				err := tx.RawQuery(`INSERT INTO pullrequests (login, type, html_url)
-				VALUES (?, ?, ?) ON CONFLICT CONSTRAINT (login) DO UPDATE SET html_url = ?`,
-					assignee.Login, assignee.Type, assignee.HTMLURL, assignee.HTMLURL)
+				id, err := uuid.NewV1()
 				if err != nil {
+					return false
+				}
+				q := tx.RawQuery(`INSERT INTO assignees (id, created_at, updated_at, login, type, html_url)
+				VALUES (?, ?, ?, ?, ?, ?) ON CONFLICT (login) DO UPDATE SET html_url = ?`,
+					id, time.Now(), time.Now(), assignee.Login, assignee.Type, assignee.HTMLURL, assignee.HTMLURL)
+				exErr := q.Exec()
+				if exErr != nil {
+					log.Print(exErr)
 					log.Printf("Unable to update event number %d in checkAssigned", *event.Number)
 					return false
 				}

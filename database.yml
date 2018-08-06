@@ -5,4 +5,4 @@ test:
   url: {{envOr "TEST_DATABASE_URL" "postgres://postgres:postgres@127.0.0.1:5432/spec_sla_bot_test?sslmode=disable"}}
 
 production:
-  url: {{env "CUSTOMCONNSTR_DATABASE_URL"}}
+  url: {{envOr "CUSTOMCONNSTR_DATABASE_URL" "postgres://postgres:postgres@127.0.0.1:5432/spec_sla_bot_production?sslmode=disable"}}

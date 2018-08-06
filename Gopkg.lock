@@ -2,6 +2,12 @@
 
 
 [[projects]]
+  name = "cloud.google.com/go"
+  packages = ["civil"]
+  revision = "aad3f485ee528456e0768f20397b4d9dd941e755"
+  version = "v0.25.0"
+
+[[projects]]
   branch = "master"
   name = "dmitri.shuralyov.com/text/kebabcase"
   packages = ["."]
@@ -60,8 +66,8 @@
     "logger",
     "version"
   ]
-  revision = "dd94e014aaf16d1df746762e392aa201c1b4c461"
-  version = "v10.15.0"
+  revision = "22deab8fa353631a78351bd7808fcb5002024b67"
+  version = "v10.15.1"
 
 [[projects]]
   name = "github.com/BurntSushi/toml"
@@ -86,6 +92,15 @@
   packages = ["spew"]
   revision = "346938d642f2ec3594ed81d874461961cd0faa76"
   version = "v1.1.0"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/denisenkom/go-mssqldb"
+  packages = [
+    ".",
+    "internal/cp"
+  ]
+  revision = "242fa5aa1b45aeb9fcdfeee88822982e3f548e22"
 
 [[projects]]
   name = "github.com/dgrijalva/jwt-go"
@@ -150,8 +165,14 @@
     ".",
     "translators"
   ]
-  revision = "a68affc47dc7145d791149e996c379a0f46ee507"
-  version = "v1.0.2"
+  revision = "a210f7878542ac427c2d50e183f53feb38dea1f7"
+  version = "v1.0.6"
+
+[[projects]]
+  name = "github.com/gobuffalo/github_flavored_markdown"
+  packages = ["."]
+  revision = "6af65dcbf5386db0b8da50e160ff0fdda7ef1459"
+  version = "v1.0.0"
 
 [[projects]]
   name = "github.com/gobuffalo/makr"
@@ -174,8 +195,8 @@
     "parser",
     "token"
   ]
-  revision = "726a3d7f08d2665e95e495175ddb68da00868572"
-  version = "v3.7.9"
+  revision = "8d37e0b25872764b4ff35a11eaaf1e8074251121"
+  version = "v3.7.11"
 
 [[projects]]
   name = "github.com/gobuffalo/pop"
@@ -186,8 +207,8 @@
     "fix",
     "nulls"
   ]
-  revision = "c0faa0f7edf8c0db4befe9abc41d135003a97d53"
-  version = "v4.6.2"
+  revision = "f7f4e882bd509b48db850bdff8dde6f86c82404d"
+  version = "v4.6.3"
 
 [[projects]]
   name = "github.com/gobuffalo/suite"
@@ -211,8 +232,8 @@
 [[projects]]
   name = "github.com/gobuffalo/uuid"
   packages = ["."]
-  revision = "3a9fb6c5c481d4886f1e9323c61ad743fb955860"
-  version = "v2.0.0"
+  revision = "788767dde529e4b1c0e078569ebe51dc6b2ad6dc"
+  version = "v2.0.1"
 
 [[projects]]
   name = "github.com/gobuffalo/validate"
@@ -341,8 +362,8 @@
 [[projects]]
   name = "github.com/markbates/willie"
   packages = ["."]
-  revision = "309de92988f04c17dc913ae862b32eacab30defb"
-  version = "v1.0.1"
+  revision = "0c170e37efa685c5d01e5f71998e9cc3816f659b"
+  version = "v1.0.2"
 
 [[projects]]
   name = "github.com/mattn/go-colorable"
@@ -372,7 +393,7 @@
   branch = "master"
   name = "github.com/mitchellh/go-homedir"
   packages = ["."]
-  revision = "3864e76763d94a6df2f9960b16a20a33da9f9a66"
+  revision = "58046073cbffe2f25d425fe1331102f55cf719de"
 
 [[projects]]
   branch = "master"
@@ -429,7 +450,7 @@
   branch = "master"
   name = "github.com/russross/blackfriday"
   packages = ["."]
-  revision = "11635eb403ff09dbc3a6b5a007ab5ab09151c229"
+  revision = "46c73eb196baff5bb07288f245b223bd1a30fba6"
 
 [[projects]]
   branch = "master"
@@ -536,9 +557,10 @@
   packages = [
     "bcrypt",
     "blowfish",
+    "md4",
     "ssh/terminal"
   ]
-  revision = "c126467f60eb25f8f27e5a981f32a87e3965053f"
+  revision = "80fca2ff14a3fb7db622c9a5462f8ce9ea026cba"
 
 [[projects]]
   branch = "master"
@@ -548,7 +570,7 @@
     "html",
     "html/atom"
   ]
-  revision = "49c15d80dfbc983ea25246ee959d970efe09ec09"
+  revision = "f4c29de78a2a91c00474a2e689954305c350adf9"
 
 [[projects]]
   branch = "master"
@@ -563,7 +585,7 @@
     "unix",
     "windows"
   ]
-  revision = "bd9dbc187b6e1dacfdd2722a87e83093c2d7bd6e"
+  revision = "2be389f392cd91df245b41638f818a1c041f0c08"
 
 [[projects]]
   name = "google.golang.org/appengine"
@@ -583,6 +605,12 @@
   revision = "81ebce5c23dfd25c6c67194b37d3dd3f338c98b1"
 
 [[projects]]
+  name = "gopkg.in/russross/blackfriday.v1"
+  packages = ["."]
+  revision = "55d61fa8aa702f59229e6cff85793c22e580eaf5"
+  version = "v1.5.1"
+
+[[projects]]
   name = "gopkg.in/yaml.v2"
   packages = ["."]
   revision = "5420a8b6744d3b0345ab293f6fcba19c978f1183"
@@ -600,6 +628,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "1473fc1e80a5339863e6bd6e79845ea5d3174be5a41789137e96de9e0461b481"
+  inputs-digest = "69ab168166b6ab604139c01a8547de8f0893dce5490dd00b9edd4a4a840fbd75"
   solver-name = "gps-cdcl"
   solver-version = 1

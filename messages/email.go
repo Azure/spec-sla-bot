@@ -38,10 +38,10 @@ func SendEmailToAssignee(ctx context.Context, info *Message) error {
 	queryString := fmt.Sprintf("SELECT EmailLogin FROM [User] WHERE GitHubUser = '%s';", info.Assignee)
 	fmt.Println("email selection query: ", queryString)
 	rows, err := InfraDB.QueryContext(ctx, queryString)
-	defer rows.Close()
 	if err != nil {
 		return err
 	}
+	defer rows.Close()
 	var emailTo string
 	if rows != nil {
 		log.Print("rows does not equal null")
