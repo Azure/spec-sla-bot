@@ -2,6 +2,7 @@ package messages
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"os"
 	"time"
@@ -9,36 +10,39 @@ import (
 	"github.com/Azure/azure-service-bus-go"
 )
 
-func SendToQueue(message string, postTime time.Time) error {
+func SendToQueue(ctx context.Context, message []byte, postTime time.Time, queueName string) error {
 	connStr := os.Getenv("CUSTOMCONNSTR_SERVICEBUS_CONNECTION_STRING")
 	ns, err := servicebus.NewNamespace(servicebus.NamespaceWithConnectionString(connStr))
 	if err != nil {
 		return err
 	}
 
-	queueName := "24hrgitevents"
-	q, err := getQueueToSend(ns, queueName)
+	fmt.Println("Post Time: ", postTime, " Now: ", time.Now())
 
+	q, err := getQueueToSend(ns, queueName)
+	fmt.Println("Queue Name: ", queueName)
 	if err != nil {
 		log.Printf("failed to build a new queue named %q\n", queueName)
 		return err
 	}
-	postTime = postTime.Add(time.Minute * 10)
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	msg := servicebus.NewMessageFromString(message)
+
+	msg := servicebus.NewMessage(message)
 	msg.SystemProperties = &servicebus.SystemProperties{
 		ScheduledEnqueueTime: &postTime,
 	}
-	log.Printf("ABOUT TO SEND MESSAGE")
-	log.Print(message)
-	q.Send(ctx, msg)
-	cancel()
+
+	fmt.Println("Scheduled Enqueue Time: ", msg.SystemProperties.ScheduledEnqueueTime)
+
+	err = q.Send(ctx, msg)
+	if err != nil {
+		return err
+	}
+	q.Close(ctx)
+
 	return nil
 }
 
 func getQueueToSend(ns *servicebus.Namespace, queueName string) (*servicebus.Queue, error) {
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
-	q, err := ns.NewQueue(ctx, queueName)
+	q, err := ns.NewQueue(queueName)
 	return q, err
 }

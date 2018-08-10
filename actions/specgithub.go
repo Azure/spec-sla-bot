@@ -39,7 +39,7 @@ func (s *SpecgithubSubscriber) ReceivePullRequestEvent(c buffalo.Context, e even
 	if err := json.Unmarshal(e.Data, &payload); err != nil {
 		return c.Error(http.StatusBadRequest, errors.New("unable to unmarshal request data"))
 	}
-	messages.CheckAcknowledgement(payload)
+	messages.CheckAcknowledgement(c, payload)
 
 	// Replace the code below with your logic
 	return c.Render(200, render.JSON(map[string]string{"message": "Hopefully this works"}))
@@ -53,7 +53,7 @@ func (s *SpecgithubSubscriber) ReceiveIssueCommentEvent(c buffalo.Context, e eve
 		return c.Error(http.StatusBadRequest, errors.New("unable to unmarshal request data"))
 	}
 	c.Logger().Debug("Check acknowledgement of comment on PR")
-	messages.CheckAcknowledgementComment(payload)
+	messages.CheckAcknowledgementComment(c, payload)
 
 	// Replace the code below with your logic
 	return c.Render(200, render.JSON(map[string]string{"message": "Hopefully this works"}))
@@ -67,7 +67,7 @@ func (s *SpecgithubSubscriber) ReceiveLabelEvent(c buffalo.Context, e eventgrid.
 		return c.Error(http.StatusBadRequest, errors.New("unable to unmarshal request data"))
 	}
 	c.Logger().Debug("Check acknowledgement of comment on PR")
-	messages.CheckAcknowledgementLabel(payload)
+	messages.CheckAcknowledgementLabel(c, payload)
 
 	// Replace the code below with your logic
 	return c.Render(200, render.JSON(map[string]string{"message": "Hopefully this works"}))

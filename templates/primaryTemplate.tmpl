@@ -8,7 +8,7 @@ th, td {
     text-align: left;
 }
 </style>
-    Dear {{.Assignee}},<br /><br /> You have an outstanding PR that has not been acknowledged in past 24 hours. Please acknowlege the PR to abide by the SLA.<br /><br /> Kindly, <br />Jackie (your favorite intern)<br>
+    Dear {{.AssigneeLogin}},<br /><br /> You have an outstanding PR that has not been acknowledged in past 24 hours. Please acknowlege the PR to abide by the SLA.<br /><br /> Kindly, <br />Jackie (your favorite intern)<br>
         <table style="width:100%">
         <caption><br />Outstanding Pull Requests</caption>
         <tr>
@@ -16,9 +16,9 @@ th, td {
             <th>Assignee</th>
         </tr>
             <tr>
-                <td><a href={{.PullRequestURL}}>{{ .PRID }}</a></td>
-                {{if .Assignee -}}
-                    <td>{{ .Assignee }}</td>
+                <td><a href={{.HTMLURL}}>{{ .PRID }}</a></td>
+                {{if .AssigneeLogin -}}
+                    <td>{{ .AssigneeLogin }}</td>
                 {{- else}}
                     <td>NONE</td>
                 {{- end}}

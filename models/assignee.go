@@ -18,8 +18,7 @@ type Assignee struct {
 	Type         string       `json:"type" db:"type"`
 	HtmlUrl      string       `json:"html_url" db:"html_url"`
 	Pullrequests Pullrequests `many_to_many:"pullrequest_assignees" db:"-"`
-	//Pullrequests *Pullrequest `many_to_many:"pullrequest_assignee"`
-	//Emails       *Email       `many_to_many:"email_assignee"`
+	Emails       Emails       `many_to_many:"email_assignee" db:"-"`
 }
 
 // String is not required by pop and may be deleted

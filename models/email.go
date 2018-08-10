@@ -16,7 +16,7 @@ type Email struct {
 	UpdatedAt     time.Time `json:"updated_at" db:"updated_at"`
 	PullrequestID int       `json:"pullrequest_id" db:"pullrequest_id"`
 	TimeSent      string    `json:"time_sent" db:"time_sent"`
-	Assignees     *Assignee `many_to_many:"email_assignee"`
+	Assignees     Assignees `many_to_many:"email_assignees"`
 }
 
 // String is not required by pop and may be deleted

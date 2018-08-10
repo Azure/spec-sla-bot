@@ -2,10 +2,9 @@ package messages
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"log"
-	"strconv"
-	"strings"
 	"time"
 
 	"github.com/Azure/azure-service-bus-go"
@@ -13,17 +12,11 @@ import (
 	"github.com/gobuffalo/uuid"
 )
 
-type Message struct {
-	PRID           string
-	PullRequestURL string
-	Assignee       string
-}
-
+//ReceiveFromQueue Sets up the queue to receive from service bus and determines whether
+//or not an email should be sent to the assignees and updates the datebase accordingly
 func ReceiveFromQueue(ctx context.Context, connStr string) (*servicebus.ListenerHandle, error) {
 	ns, err := servicebus.NewNamespace(servicebus.NamespaceWithConnectionString(connStr))
-	log.Print("new namespace created")
 	if err != nil {
-		log.Println(err)
 		return nil, err
 	}
 
@@ -33,16 +26,16 @@ func ReceiveFromQueue(ctx context.Context, connStr string) (*servicebus.Listener
 		log.Printf("failed to build a new queue named %q\n", queueName)
 		return nil, err
 	}
-	log.Print("got queue to receive")
+
 	listenHandle, err := q.Receive(ctx, func(ctx context.Context, message *servicebus.Message) servicebus.DispositionAction {
-		messageStruct, err := parseMessage(message.Data)
+		messageStruct := &MessageContent{}
+		err := json.Unmarshal(message.Data, messageStruct)
 		log.Print("parsed message")
 		if err != nil {
 			log.Println(err)
 			return message.DeadLetter(err)
 		}
-		log.Print(messageStruct.Assignee)
-		if ShouldSend(messageStruct) {
+		if ShouldSendAssigneeEmail(messageStruct) {
 			err = SendEmailToAssignee(ctx, messageStruct)
 			if err != nil {
 				log.Println(err)
@@ -51,6 +44,12 @@ func ReceiveFromQueue(ctx context.Context, connStr string) (*servicebus.Listener
 			err = AddEmailToDB(messageStruct)
 			if err != nil {
 				log.Println("Unable to add the emails to the database")
+				return message.DeadLetter(err)
+			}
+		} else if messageStruct.ManagerEmailReminder {
+			err = SendEmailToManager(ctx, messageStruct)
+			if err != nil {
+				log.Println(err)
 				return message.DeadLetter(err)
 			}
 		}
@@ -63,6 +62,7 @@ func ReceiveFromQueue(ctx context.Context, connStr string) (*servicebus.Listener
 	return listenHandle, nil
 }
 
+//getQueueToReveive gets the queue to receive messages from service bus
 func getQueueToReceive(ns *servicebus.Namespace, queueName string) (*servicebus.Queue, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
@@ -78,58 +78,62 @@ func getQueueToReceive(ns *servicebus.Namespace, queueName string) (*servicebus.
 			return nil, err
 		}
 	}
-	q, err := ns.NewQueue(ctx, queueName)
+	q, err := ns.NewQueue(queueName)
 	return q, err
 }
 
-//Redo this
-func parseMessage(data []byte) (*Message, error) {
-	str := string(data[:])
-	if len(str) != 0 {
-		strSplit := strings.FieldsFunc(str, Split)
-		for i, v := range strSplit {
-			strSplit[i] = strings.TrimSpace(v)
-		}
-		return &Message{PRID: strSplit[1], PullRequestURL: strSplit[3], Assignee: strSplit[5]}, nil
-	}
-	return nil, errors.New("could not parse messages returned by service bus")
-}
-
-func Split(r rune) bool {
-	return r == ','
-}
-
-func ShouldSend(messageStruct *Message) bool {
-	gitPRID, _ := strconv.Atoi(messageStruct.PRID)
+//ShouldSendAssigneeEmail determines if an email should be sent to the assignee based on
+//whether the time is valid and the current time is greater than the expire
+//time
+func ShouldSendAssigneeEmail(messageStruct *MessageContent) bool {
 	prs := []models.Pullrequest{}
-	err := models.DB.Where("git_prid=?", int64(gitPRID)).All(&prs)
+	err := models.DB.Where("git_prid=?", messageStruct.PRID).All(&prs)
 	if err != nil || prs == nil {
-		log.Print("Could not make querey")
 		return false
 	}
 	for _, pr := range prs {
-		log.Print(time.Now().Sub(pr.ExpireTime))
-		//if pr.ValidTime && time.Now().Sub(pr.ExpireTime) >= 0 {
-		log.Print("returning true, should send message")
-		return true
-		//}
-		//log.Print(time.Now())
-		//log.Print(pr.ExpireTime)
+		if pr.ValidTime && time.Now().Sub(pr.ExpireTime) >= 0 {
+			log.Print("returning true, should send message")
+			return true
+		}
 	}
-	log.Print("pr was nil")
 	return false
 }
 
-func AddEmailToDB(messageStruct *Message) error {
-	gitPRID, _ := strconv.Atoi(messageStruct.PRID)
-	id, err := uuid.NewV1()
+//AddEmailToDB adds an email entry to the database for use when sending
+//the manager email
+func AddEmailToDB(messageStruct *MessageContent) error {
+	emailID, err := uuid.NewV1()
 	if err != nil {
 		return err
 	}
-	//Do I need to populate assignee?
 	q := models.DB.RawQuery(`INSERT INTO emails (id, created_at, updated_at, pullrequest_id, time_sent)
 			VALUES (?, ?, ?, ?, ?)`,
-		id, time.Now(), time.Now(), gitPRID, time.Now())
+		emailID, time.Now(), time.Now(), int(messageStruct.PRID), time.Now())
+	err = q.Exec()
+	if err != nil {
+		log.Print(err)
+		return errors.New("Could not complete insert to add email to database")
+	}
+
+	assignees := []models.Assignee{}
+	err = models.DB.RawQuery(`SELECT * FROM assignees WHERE login=?`, messageStruct.AssigneeLogin).All(&assignees)
+	if err != nil {
+		return err
+	}
+	if assignees == nil {
+		log.Print("Assignee is not in the database")
+		return nil
+	}
+
+	assigneeID := assignees[0].ID
+	emailAssigneeID, err := uuid.NewV1()
+	if err != nil {
+		return err
+	}
+	q = models.DB.RawQuery(`INSERT INTO email_assignees (id, email_id, assignee_id, created_at, 
+		updated_at) VALUES (?, ?, ?, ?, ?)`,
+		emailAssigneeID, emailID, assigneeID, time.Now(), time.Now())
 	err = q.Exec()
 	if err != nil {
 		log.Print(err)

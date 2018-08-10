@@ -15,6 +15,8 @@ type EmailAssignee struct {
 	UpdatedAt  time.Time `json:"updated_at" db:"updated_at"`
 	EmailID    uuid.UUID `json:"email_id" db:"email_id"`
 	AssigneeID string    `json:"assignee_id" db:"assignee_id"`
+	Email      Email     `belongs_to:"emails" db:"-"`
+	Assignee   Assignee  `belongs_to:"assignees" db:"-"`
 }
 
 // String is not required by pop and may be deleted

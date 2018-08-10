@@ -27,7 +27,7 @@
 
 [[constraint]]
   name = "github.com/Azure/azure-service-bus-go"
-  version = "0.1.0"
+  revision = "4eb9c25e4b2f11d1bfab85cd415c3d703f7358ba"
 
 [[constraint]]
   name = "github.com/Azure/buffalo-azure"

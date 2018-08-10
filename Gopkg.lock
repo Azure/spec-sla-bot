@@ -4,8 +4,8 @@
 [[projects]]
   name = "cloud.google.com/go"
   packages = ["civil"]
-  revision = "aad3f485ee528456e0768f20397b4d9dd941e755"
-  version = "v0.25.0"
+  revision = "64a2037ec6be8a4b0c1d1f706ed35b428b989239"
+  version = "v0.26.0"
 
 [[projects]]
   branch = "master"
@@ -36,8 +36,8 @@
     "services/servicebus/mgmt/2017-04-01/servicebus",
     "version"
   ]
-  revision = "fad8443a79b0e755c18c3bec29a8d2bedab0b421"
-  version = "v15.3.0"
+  revision = "4e8cbbfb1aeab140cd0fa97fd16b64ee18c3ca6a"
+  version = "v19.1.0"
 
 [[projects]]
   name = "github.com/Azure/azure-service-bus-go"
@@ -45,8 +45,7 @@
     ".",
     "atom"
   ]
-  revision = "88613d3356e8ce24659eb44cc5bd6a34e250703a"
-  version = "v0.1.0"
+  revision = "4eb9c25e4b2f11d1bfab85cd415c3d703f7358ba"
 
 [[projects]]
   name = "github.com/Azure/buffalo-azure"
@@ -560,7 +559,7 @@
     "md4",
     "ssh/terminal"
   ]
-  revision = "80fca2ff14a3fb7db622c9a5462f8ce9ea026cba"
+  revision = "f027049dab0ad238e394a753dba2d14753473a04"
 
 [[projects]]
   branch = "master"
@@ -570,7 +569,7 @@
     "html",
     "html/atom"
   ]
-  revision = "f4c29de78a2a91c00474a2e689954305c350adf9"
+  revision = "19491d39cadbd9cd33f26ca22cc89ba4ba38251c"
 
 [[projects]]
   branch = "master"
@@ -585,7 +584,7 @@
     "unix",
     "windows"
   ]
-  revision = "2be389f392cd91df245b41638f818a1c041f0c08"
+  revision = "acbc56fc7007d2a01796d5bde54f39e3b3e95945"
 
 [[projects]]
   name = "google.golang.org/appengine"
@@ -628,6 +627,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "69ab168166b6ab604139c01a8547de8f0893dce5490dd00b9edd4a4a840fbd75"
+  inputs-digest = "0868c77c0d85e31091d756abe875eb679d8521106e70cafbdcd032a252e0b0d3"
   solver-name = "gps-cdcl"
   solver-version = 1
